@@ -52,7 +52,7 @@ function Header({ username, reviewCards, totalCards }: HeaderProps) {
           <img
             src={img}
             alt="Learning"
-            className="mt-3 h-30 w-30 rounded-2xl object-fit"
+            className="mt-3 h-30 w-30 rounded-2xl object-contain"
           />
         </div>
       </div>
