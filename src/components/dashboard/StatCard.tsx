@@ -8,7 +8,7 @@ interface StatCardProps {
   to: string;
 }
 
-function StatCard({ title, subtitle, count, image, to }: StatCardProps) {
+function StatCard({ title, count, image, to }: StatCardProps) {
   return (
     <Link
       to={to}

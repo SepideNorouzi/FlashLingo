@@ -45,13 +45,6 @@ function ProjectCard({
           >
             {name}
           </h3>
-
-          <p
-            className="text-sm"
-            style={{ color: "var(--text-light)" }}
-          >
-            Flashcard project
-          </p>
         </div>
 
         <span
