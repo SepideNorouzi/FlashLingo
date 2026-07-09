@@ -7,25 +7,57 @@ function Projects() {
   const { projects, addProject } = useProjects();
   const navigate = useNavigate();
 
-  return (
-    <section className="mt-6 rounded-3xl bg-[#FFF8F1] p-5 shadow-sm">
-      {/* Header */}
-      <div className="mb-5 flex items-center justify-between">
-        <h2 className="text-xl font-bold">Projects</h2>
+  const deleteProject = (id: string) => {
+    console.log("delete project");
+  };
 
-        <span className="rounded-full bg-white px-3 py-1 text-sm text-gray-600 shadow-sm">
+  return (
+    <section
+      className="mt-8 rounded-[30px] border p-6"
+      style={{
+        background:
+          "linear-gradient(135deg, var(--primary-light), var(--secondary-light))",
+        borderColor: "var(--border)",
+        boxShadow: "0 15px 35px var(--shadow)",
+      }}
+    >
+      {/* Header */}
+      <div
+        className="mb-6 flex items-center justify-between border-l-4 pl-4"
+        style={{
+          borderColor: "var(--primary)",
+        }}
+      >
+        <div>
+          <h2 className="text-2xl font-bold" style={{ color: "var(--text)" }}>
+            Projects
+          </h2>
+
+          <p className="mt-1 text-sm" style={{ color: "var(--text-light)" }}>
+            Organize your flashcard collections.
+          </p>
+        </div>
+
+        <span
+          className="rounded-full px-4 py-1 text-sm font-semibold"
+          style={{
+            background: "var(--primary-light)",
+            color: "var(--primary)",
+          }}
+        >
           {projects.length}
         </span>
       </div>
 
       {/* Scrollable List */}
-      <div className="max-h-72 space-y-3 overflow-y-auto pr-1">
+      <div className="custom-scrollbar max-h-80 space-y-4 overflow-y-auto pr-4">
         {projects.map((project) => (
           <ProjectCard
             key={project.id}
             name={project.name}
             flashcardCount={10}
             onClick={() => navigate(`/flashcards?projectId=${project.id}`)}
+            onDelete={() => deleteProject(project.id)}
           />
         ))}
 

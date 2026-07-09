@@ -7,6 +7,10 @@ interface SidebarProps {
 }
 
 function Sidebar({ onOpenModal }: SidebarProps) {
+  const mode: "demo" | "admin" = "demo";
+  // later :
+  // const mode = useAppStore((state) => state.mode);
+
   return (
     <aside
       className="
@@ -15,29 +19,55 @@ function Sidebar({ onOpenModal }: SidebarProps) {
     md:top-0
     md:flex
     md:h-screen
-    w-64
+    w-72
     flex-col
     justify-between
-    bg-[#FFF8F1]
-    p-6
+    border-l
+    p-8
   "
+      style={{
+        background:
+          "linear-gradient(180deg,var(--surface),var(--surface-soft))",
+        borderColor: "var(--border)",
+      }}
     >
       {/* Top */}
       <div>
         {/* Logo */}
         <div className="mb-12">
           <div className="flex items-center gap-3">
-            <div className="rounded-2xl bg-pink-100 p-3">
-              <BookOpen className="text-pink-600" size={28} />
+            <div
+              className="rounded-2xl p-3"
+              style={{
+                background: "var(--secondary-light)",
+              }}
+            >
+              <BookOpen size={26} style={{ color: "var(--secondary)" }} />
             </div>
 
             <div>
-              <h1 className="text-xl font-bold">FlashLingo</h1>
+              <h1
+                className="text-2xl font-bold"
+                style={{ color: "var(--text)" }}
+              >
+                FlashLingo
+              </h1>
 
-              <p className="text-sm text-gray-500">One card at a time</p>
+              <p className="text-sm" style={{ color: "var(--text-light)" }}>
+                One card at a time
+              </p>
             </div>
           </div>
         </div>
+
+        <p
+          className="mb-3 text-xs font-semibold uppercase tracking-widest"
+          style={{
+            color: "var(--text-light)",
+          }}
+        >
+          Menu
+        </p>
 
         {/* Navigation */}
 
@@ -46,9 +76,9 @@ function Sidebar({ onOpenModal }: SidebarProps) {
             icon={<Plus size={22} />}
             label="Add Flashcard"
             onClick={() => {
-    console.log("clicked");
-    onOpenModal("add-card");
-  }}
+              console.log("clicked");
+              onOpenModal("add-card");
+            }}
           />
 
           <NavButton
@@ -67,8 +97,41 @@ function Sidebar({ onOpenModal }: SidebarProps) {
 
       {/* Footer */}
 
-      <div className="rounded-2xl bg-white p-4 shadow-sm ">
-        <p className="font-semibold text-pink-600 ">Demo Mode</p>
+      {/* Footer */}
+      <div
+        className="flex flex-col items-center rounded-3xl p-5 text-center"
+        style={{
+          background:
+            "linear-gradient(135deg,var(--primary-light),var(--secondary-light))",
+        }}
+      >
+        {mode === "demo" ? (
+          <>
+            <p className="font-semibold" style={{ color: "var(--primary)" }}>
+              🌸 Demo Mode
+            </p>
+
+            <span
+              className="mt-2 text-sm leading-relaxed"
+              style={{ color: "var(--text-light)" }}
+            >
+              All your data stays on this device.
+            </span>
+          </>
+        ) : (
+          <>
+            <p className="font-semibold" style={{ color: "var(--primary)" }}>
+              👤 Admin Mode
+            </p>
+
+            <span
+              className="mt-2 text-sm leading-relaxed"
+              style={{ color: "var(--text-light)" }}
+            >
+              Changes are synced with your account.
+            </span>
+          </>
+        )}
       </div>
     </aside>
   );
