@@ -8,13 +8,7 @@ interface StatCardProps {
   to: string;
 }
 
-function StatCard({
-  title,
-  subtitle,
-  count,
-  image,
-  to,
-}: StatCardProps) {
+function StatCard({ title, subtitle, count, image, to }: StatCardProps) {
   return (
     <Link
       to={to}
@@ -22,24 +16,26 @@ function StatCard({
     >
       <article
         className="
-    group
-    flex
-    h-56
-    flex-col
-    items-center
-    justify-center
-    gap-5
-    rounded-[30px]
-    border
-    transition-all
-    duration-300
-    hover:-translate-y-1
-    hover:shadow-xl
+group
+flex
+min-h-56
+flex-col
+items-center
+justify-center
+gap-5
+px-6
+py-6
+rounded-[30px]
+border
+transition-all
+duration-300
+hover:-translate-y-1
+hover:shadow-xl
 
-    md:flex-row
-    md:justify-between
-    md:px-8
-    md:text-left
+md:h-56
+md:flex-row
+md:justify-between
+md:px-8
 "
         style={{
           background:
@@ -48,7 +44,17 @@ function StatCard({
           boxShadow: "0 15px 35px var(--shadow)",
         }}
       >
-        <div className="flex flex-col">
+        <div
+          className="
+    flex
+    flex-col
+    items-center
+    text-center
+
+    md:items-start
+    md:text-left
+  "
+        >
           <h2 className="text-xl font-bold" style={{ color: "var(--text)" }}>
             {title}
           </h2>
@@ -56,15 +62,14 @@ function StatCard({
           {count !== undefined && (
             <span
               className="
-                  mt-3
-                  inline-flex
-                  w-fit
-                  rounded-full
-                  px-3
-                  py-1
-                  text-xs
-                  font-semibold
-                  "
+  mt-3
+  inline-flex
+  rounded-full
+  px-3
+  py-1
+  text-xs
+  font-semibold
+"
               style={{
                 background: "var(--primary-light)",
                 color: "var(--primary)",
@@ -73,8 +78,6 @@ function StatCard({
               {count} cards
             </span>
           )}
-
-          {subtitle && <p className="mt-1 text-sm text-gray-500">{subtitle}</p>}
         </div>
 
         <img
