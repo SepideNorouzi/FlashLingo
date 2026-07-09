@@ -4,8 +4,7 @@ import Navbar from "../components/navigation/Navbar";
 
 function MainLayout() {
   return (
-    <div className="min-h-screen bg-stone-50">
-
+    <div className="min-h-screen" style={{ background: "var(--bg)" }}>
       <div className="mx-auto flex max-w-7xl items-stretch">
         {/* Content */}
 

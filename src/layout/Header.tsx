@@ -109,7 +109,7 @@ function Header({ username, reviewCards, totalCards }: HeaderProps) {
             <img
               src={img}
               alt="Learning"
-              className="relative z-10 h-32 w-32 object-contain"
+              className="relative z-10 h-60 w-60 object-contain"
             />
           </div>
         </div>
