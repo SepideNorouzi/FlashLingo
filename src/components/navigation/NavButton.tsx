@@ -1,36 +1,28 @@
-import { NavLink } from "react-router";
 import { type ReactNode } from "react";
 
 interface NavButtonProps {
-  to: string;
   icon: ReactNode;
   label: string;
+  onClick?: () => void;
 }
 
-function NavButton({ to, icon, label }: NavButtonProps) {
-  return (
-    <NavLink
-      to={to}
-      className={({ isActive }) =>
-        `
-        flex items-center gap-4
-        rounded-2xl
-        px-4 py-3
-        text-gray-700
-        transition-all duration-200
+function NavButton({ icon, label, onClick }: NavButtonProps) {
+  const classes = `
+    flex items-center gap-4
+    rounded-2xl
+    px-4 py-3
+    text-gray-700
+    transition-all duration-200
+  `;
 
-        ${
-          isActive
-            ? "bg-white shadow-sm border-l-4 border-amber-400 font-semibold text-amber-600"
-            : "hover:bg-white hover:shadow-sm"
-        }
-      `
-      }
+  return (
+    <button
+      onClick={onClick}
+      className={`${classes} hover:bg-white hover:shadow-sm w-full`}
     >
       <span className="text-2xl">{icon}</span>
-
-      <span className="text-base">{label}</span>
-    </NavLink>
+      <span>{label}</span>
+    </button>
   );
 }
 

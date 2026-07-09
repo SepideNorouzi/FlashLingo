@@ -1,0 +1,24 @@
+:root {
+  --bg: #f7f4ff;
+  --surface: #ffffff;
+  --surface-soft: #fdf8ff;
+
+  --primary: #a78bfa;
+  --primary-light: #ddd6fe;
+
+  --secondary: #f9a8d4;
+  --secondary-light: #fde7f3;
+
+  --accent: #818cf8;
+
+  --text: #2b2940;
+  --text-light: #6b6b80;
+
+  --border: #ece7ff;
+
+  --shadow: rgba(164, 136, 255, 0.18);
+
+  /* Gradients */
+  --surface-gradient: linear-gradient(135deg, #ffffff, #fdf8ff);
+  --button-gradient: linear-gradient(135deg, #a78bfa, #f9a8d4);
+}

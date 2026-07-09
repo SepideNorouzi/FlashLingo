@@ -1,11 +1,10 @@
 import { Outlet } from "react-router";
-import BottomNavbar from "../components/navigation/BottomNavbar";
-import Sidebar from "../components/navigation/Sidebar";
+
+import Navbar from "../components/navigation/Navbar";
 
 function MainLayout() {
   return (
     <div className="min-h-screen bg-stone-50">
-      {/* Desktop */}
 
       <div className="mx-auto flex max-w-7xl items-stretch">
         {/* Content */}
@@ -18,13 +17,7 @@ function MainLayout() {
 
         {/* Sidebar */}
 
-        <Sidebar />
-      </div>
-
-      {/* Mobile */}
-
-      <div className="md:hidden">
-        <BottomNavbar />
+        <Navbar />
       </div>
     </div>
   );

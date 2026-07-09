@@ -1,9 +1,11 @@
+import type { ModalType } from "../../store/uiStore";
 
-
-function BottomNavbar() {
-  return (
-    <div>BottomNavbar</div>
-  )
+interface BottomNavbarProps {
+  onOpenModal: (modal: ModalType) => void;
 }
 
-export default BottomNavbar
+function BottomNavbar({ onOpenModal }: BottomNavbarProps) {
+  return <div>BottomNavbar</div>;
+}
+
+export default BottomNavbar;
