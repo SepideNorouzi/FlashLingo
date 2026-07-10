@@ -12,6 +12,8 @@ function SearchModal({ onClose, ...props }: ModalProps) {
 
   const { projects } = useProjects();
 
+  const hasQuery = query.trim().length > 0;
+
   const filteredProjects = useMemo(() => {
     const value = query.trim().toLowerCase();
 
@@ -49,47 +51,61 @@ function SearchModal({ onClose, ...props }: ModalProps) {
           }}
         />
 
-        <div className="max-h-72 space-y-2 overflow-y-auto">
-          {filteredProjects.length === 0 ? (
-            <p
-              className="py-6 text-center text-sm"
-              style={{ color: "var(--text-light)" }}
-            >
-              No matching projects.
-            </p>
-          ) : (
-            filteredProjects.map((project) => (
-              <button
-                key={project.id}
-                onClick={() => openProject(project.id)}
-                className="
-                  w-full
-                  rounded-xl
-                  border
-                  p-4
-                  text-left
-                  transition
-                  hover:-translate-y-0.5
-                "
-                style={{
-                  borderColor: "var(--border)",
-                  background: "var(--surface-soft)",
-                }}
-              >
-                <h3 className="font-semibold" style={{ color: "var(--text)" }}>
-                  {project.name}
-                </h3>
+        {!hasQuery && (
+          <p
+            className="py-8 text-center text-sm"
+            style={{ color: "var(--text-light)" }}
+          >
+            Start typing a project name to begin studying.
+          </p>
+        )}
 
-                <p
-                  className="mt-1 text-sm"
-                  style={{ color: "var(--text-light)" }}
+        {hasQuery && (
+          <div className="max-h-72 space-y-2 overflow-y-auto">
+            {filteredProjects.length === 0 ? (
+              <p
+                className="py-6 text-center text-sm"
+                style={{ color: "var(--text-light)" }}
+              >
+                No matching projects.
+              </p>
+            ) : (
+              filteredProjects.map((project) => (
+                <button
+                  key={project.id}
+                  onClick={() => openProject(project.id)}
+                  className="
+                    w-full
+                    rounded-xl
+                    border
+                    p-4
+                    text-left
+                    transition
+                    hover:-translate-y-0.5
+                  "
+                  style={{
+                    borderColor: "var(--border)",
+                    background: "var(--surface-soft)",
+                  }}
                 >
-                  Open study session →
-                </p>
-              </button>
-            ))
-          )}
-        </div>
+                  <h3
+                    className="font-semibold"
+                    style={{ color: "var(--text)" }}
+                  >
+                    {project.name}
+                  </h3>
+
+                  <p
+                    className="mt-1 text-sm"
+                    style={{ color: "var(--text-light)" }}
+                  >
+                    Open study session →
+                  </p>
+                </button>
+              ))
+            )}
+          </div>
+        )}
       </div>
     </BaseModal>
   );
