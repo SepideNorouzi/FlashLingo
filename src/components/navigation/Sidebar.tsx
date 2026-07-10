@@ -1,15 +1,30 @@
 import { BookOpen, Plus, Search, Settings } from "lucide-react";
 import NavButton from "./NavButton";
 import type { ModalType } from "../../store/uiStore";
+import SidebarModeCard from "./SidebarModeCard";
 
 interface SidebarProps {
   onOpenModal: (modal: ModalType) => void;
 }
 
 function Sidebar({ onOpenModal }: SidebarProps) {
-  const mode: "demo" | "admin" = "demo";
-  // later :
-  // const mode = useAppStore((state) => state.mode);
+  const menuItems = [
+    {
+      label: "Add Flashcard",
+      icon: <Plus size={22} />,
+      action: () => onOpenModal("add-card"),
+    },
+    {
+      label: "Search",
+      icon: <Search size={22} />,
+      action: () => onOpenModal("search"),
+    },
+    {
+      label: "Settings",
+      icon: <Settings size={22} />,
+      action: () => onOpenModal("settings"),
+    },
+  ];
 
   return (
     <aside
@@ -72,67 +87,20 @@ function Sidebar({ onOpenModal }: SidebarProps) {
         {/* Navigation */}
 
         <nav className="space-y-3">
-          <NavButton
-            icon={<Plus size={22} />}
-            label="Add Flashcard"
-            onClick={() => {
-              console.log("clicked");
-              onOpenModal("add-card");
-            }}
-          />
-
-          <NavButton
-            icon={<Search size={22} />}
-            label="Search"
-            onClick={() => onOpenModal("search")}
-          />
-
-          <NavButton
-            icon={<Settings size={22} />}
-            label="Settings"
-            onClick={() => onOpenModal("settings")}
-          />
+          {menuItems.map((item) => (
+            <NavButton
+              key={item.label}
+              icon={item.icon}
+              label={item.label}
+              onClick={item.action}
+            />
+          ))}
         </nav>
       </div>
 
       {/* Footer */}
 
-      {/* Footer */}
-      <div
-        className="flex flex-col items-center rounded-3xl p-5 text-center"
-        style={{
-          background:
-            "linear-gradient(135deg,var(--primary-light),var(--secondary-light))",
-        }}
-      >
-        {mode === "demo" ? (
-          <>
-            <p className="font-semibold" style={{ color: "var(--primary)" }}>
-              🌸 Demo Mode
-            </p>
-
-            <span
-              className="mt-2 text-sm leading-relaxed"
-              style={{ color: "var(--text-light)" }}
-            >
-              All your data stays on this device.
-            </span>
-          </>
-        ) : (
-          <>
-            <p className="font-semibold" style={{ color: "var(--primary)" }}>
-              👤 Admin Mode
-            </p>
-
-            <span
-              className="mt-2 text-sm leading-relaxed"
-              style={{ color: "var(--text-light)" }}
-            >
-              Changes are synced with your account.
-            </span>
-          </>
-        )}
-      </div>
+      <SidebarModeCard />
     </aside>
   );
 }
