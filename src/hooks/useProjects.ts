@@ -8,6 +8,8 @@ export function useProjects() {
 
     totalProjects: projects.length,
 
+    getProject: projectRepository.getById,
+
     addProject: projectRepository.create,
 
     deleteProject: projectRepository.delete,

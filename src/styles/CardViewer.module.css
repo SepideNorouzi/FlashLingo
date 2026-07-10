@@ -1,0 +1,96 @@
+/* ─── Scene: sets the perspective "camera" ─── */
+.scene {
+  width: 100%;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+/* ─── The card that actually rotates ─── */
+.card {
+  position: relative;
+  width: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.45, 0, 0.15, 1);
+}
+
+.card.flipped {
+  transform: rotateY(180deg);
+}
+
+/* ─── Shared face styles ─── */
+.face {
+  /* back face must sit on top of front — use absolute for back */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; /* Safari */
+}
+
+.back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: rotateY(180deg); /* pre-rotated, waiting to come around */
+}
+
+/* ─── Buttons: fade + slide in sync with the card flip ─── */
+.buttons {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition:
+    opacity 0.35s ease 0.25s,   /* delay 0.25s = starts halfway through flip */
+    transform 0.35s ease 0.25s;
+}
+
+.buttons.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ─── Individual button hover (can't do :hover with inline styles) ─── */
+.wrongBtn,
+.rightBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.wrongBtn {
+  background: rgba(255, 100, 100, 0.08);
+  border-color: rgba(255, 100, 100, 0.25);
+  color: #e05555;
+}
+
+.wrongBtn:hover {
+  background: rgba(255, 100, 100, 0.15);
+  box-shadow: 0 4px 12px rgba(255, 100, 100, 0.15);
+  transform: scale(1.05);
+}
+
+.rightBtn {
+  background: rgba(80, 200, 120, 0.08);
+  border-color: rgba(80, 200, 120, 0.25);
+  color: #3a9e60;
+}
+
+.rightBtn:hover {
+  background: rgba(80, 200, 120, 0.15);
+  box-shadow: 0 4px 12px rgba(80, 200, 120, 0.15);
+  transform: scale(1.05);
+}
+
+.wrongBtn:active,
+.rightBtn:active {
+  transform: scale(0.95);
+}
