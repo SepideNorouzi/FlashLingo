@@ -6,7 +6,7 @@ export default function FlashcardPage() {
 
   const projectId = searchParams.get("projectId") ?? undefined;
 
-  const cards = useFlashcards({
+  const { cards } = useFlashcards({
     projectId,
   });
 
