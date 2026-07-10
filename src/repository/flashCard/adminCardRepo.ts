@@ -3,7 +3,11 @@ import type { FlashcardFilters } from "../../types/cardFilter";
 
 export const adminCardRepo = {
   getCards(filters: FlashcardFilters = {}) {
-    return [];
+    return [] as FlashCard[];
+  },
+
+  useCards(filters: FlashcardFilters = {}) {
+    return [] as FlashCard[];
   },
 
   getById(id: string) {

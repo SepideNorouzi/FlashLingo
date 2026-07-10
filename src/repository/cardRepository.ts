@@ -1,15 +1,22 @@
 import { useModeStore } from "../store/modeStore";
-import { adminCardRepo } from "./flashCard/adminCardRepo";
+
 import { demoCardRepo } from "./flashCard/demoCardRepo";
-import { type FlashCard } from "../types/flashcard";
+import { adminCardRepo } from "./flashCard/adminCardRepo";
+
+import type { FlashCard } from "../types/flashcard";
+import type { FlashcardFilters } from "../types/cardFilter";
 
 function repo() {
   return useModeStore.getState().mode === "demo" ? demoCardRepo : adminCardRepo;
 }
 
 export const cardRepository = {
-  getCards(filters = {}) {
+  getCards(filters: FlashcardFilters = {}) {
     return repo().getCards(filters);
+  },
+
+  useCards(filters: FlashcardFilters = {}) {
+    return repo().useCards(filters);
   },
 
   getById(id: string) {

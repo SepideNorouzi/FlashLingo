@@ -21,6 +21,24 @@ export const demoCardRepo = {
     return cards;
   },
 
+  useCards(filters: FlashcardFilters = {}) {
+    let cards = useCardStore((state) => state.cards);
+
+    if (filters.projectId) {
+      cards = cards.filter((card) => card.projectId === filters.projectId);
+    }
+
+    if (filters.mistakeOnly) {
+      cards = cards.filter((card) => card.mistake);
+    }
+
+    if (filters.random) {
+      cards = [...cards].sort(() => Math.random() - 0.5);
+    }
+
+    return cards;
+  },
+
   getById(id: string) {
     return useCardStore.getState().cards.find((card) => card.id === id);
   },

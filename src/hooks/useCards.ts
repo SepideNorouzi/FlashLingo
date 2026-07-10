@@ -2,7 +2,7 @@ import { cardRepository } from "../repository/cardRepository";
 import type { FlashcardFilters } from "../types/cardFilter";
 
 export function useFlashcards(filters: FlashcardFilters = {}) {
-  const cards = cardRepository.getCards(filters);
+  const cards = cardRepository.useCards(filters);
 
   const totalCards = cards.length;
 

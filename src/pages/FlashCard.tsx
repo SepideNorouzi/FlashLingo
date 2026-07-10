@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSearchParams } from "react-router";
 
 import { useFlashcards } from "../hooks/useCards";
@@ -7,47 +6,30 @@ import { useProjects } from "../hooks/useProjects";
 import CardHeader from "../components/flashCard/CardHeader";
 import CardViewer from "../components/flashCard/CardViewer";
 import SessionComplete from "../components/flashCard/SessionComplete";
-import ProgressBar from "../components/flashCard/ProgressBar";
+import { useCardSession } from "../hooks/useCardsSession";
 
 function FlashcardPage() {
   const [searchParams] = useSearchParams();
 
   const projectId = searchParams.get("projectId") ?? undefined;
+  
+  const { cards } = useFlashcards({
+    projectId,
+  });
+
+  const { currentCard, currentIndex, isFinished, onCorrect, onWrong } =
+    useCardSession(cards);
 
   const { getProject } = useProjects();
 
   const project = projectId ? getProject(projectId) : undefined;
 
-  const { cards } = useFlashcards({
-    projectId,
-  });
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-
   if (!cards.length) {
     return <div>No flashcards yet.</div>;
   }
 
-  if (currentIndex >= cards.length) {
+  if (isFinished) {
     return <SessionComplete />;
-  }
-
-  const currentCard = cards[currentIndex];
-
-  function nextCard() {
-    setCurrentIndex((i) => i + 1);
-  }
-
-  function handleCorrect() {
-    // repository.update(...)
-
-    nextCard();
-  }
-
-  function handleWrong() {
-    // repository.update(...)
-
-    nextCard();
   }
 
   return (
@@ -75,8 +57,8 @@ function FlashcardPage() {
       >
         <CardViewer
           card={currentCard}
-          onCorrect={handleCorrect}
-          onWrong={handleWrong}
+          onCorrect={onCorrect}
+          onWrong={onWrong}
           projectName={project?.name ?? "Unknown Project"}
         />
       </div>
