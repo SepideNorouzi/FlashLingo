@@ -9,7 +9,7 @@ interface ProjectStore {
 
   addProject: (project: Project) => void;
 
-  updateProject: (id: string, changes: any) => void;
+  updateProject: (id: string, changes: Partial<Project>) => void;
 
   deleteProject: (id: string) => void;
 
@@ -17,14 +17,9 @@ interface ProjectStore {
 }
 
 export const useProjectStore = create<ProjectStore>((set) => ({
-  // Empty at startup.
-  // The Demo Repository will initialize this.
-  projects: [],
+  projects: structuredClone(mockProjects),
 
-  setProjects: (projects) =>
-    set({
-      projects,
-    }),
+  setProjects: (projects) => set({ projects }),
 
   addProject: (project) =>
     set((state) => ({

@@ -1,20 +1,20 @@
 import { useState } from "react";
-import { projectService } from "../services/Project";
+import { projectRepository } from "../repository/projectRepository";
 
 export function useProjects() {
-  const [projects, setProjects] = useState(projectService.getAll());
+  const [projects, setProjects] = useState(projectRepository.getAll());
 
   function refresh() {
-    setProjects(projectService.getAll());
+    setProjects(projectRepository.getAll());
   }
 
   function addProject(name: string) {
-    projectService.create(name);
+    projectRepository.create(name);
     refresh();
   }
 
   function deleteProject(id: string) {
-    projectService.delete(id);
+    projectRepository.delete(id);
     refresh();
   }
 
