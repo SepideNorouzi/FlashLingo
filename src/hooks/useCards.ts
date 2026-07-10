@@ -1,10 +1,8 @@
-import { flashcardService } from "../services/FlashCard";
+import { cardRepository } from "../repository/cardRepository";
 import type { FlashcardFilters } from "../types/cardFilter";
 
 export function useFlashcards(filters: FlashcardFilters = {}) {
-  const cards = flashcardService.getCards(filters);
-  // later when repository exists :
-  // const cards = repository.getCards(filters);
+  const cards = cardRepository.getCards(filters);
 
   const totalCards = cards.length;
 
