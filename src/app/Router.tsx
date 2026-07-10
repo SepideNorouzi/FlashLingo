@@ -17,7 +17,7 @@ function Router() {
           <Route path="/flashcards" element={<Flashcard />} />
         </Route>
 
-        <Route path="/" element={<Intro />} />
+        <Route path="/" element={<Dashboard />} />
       </Routes>
     </div>
   );
