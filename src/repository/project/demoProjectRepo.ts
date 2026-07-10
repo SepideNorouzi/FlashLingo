@@ -1,9 +1,13 @@
 import { useProjectStore } from "../../store/demoProjectStore";
-import {type Project } from "../../types/project";
+import { type Project } from "../../types/project";
 
 export const demoProjectRepo = {
   getAll() {
     return useProjectStore.getState().projects;
+  },
+
+  useProjects() {
+    return useProjectStore((state) => state.projects);
   },
 
   getById(id: string) {

@@ -1,14 +1,19 @@
+import {type Project } from "../../types/project";
+
 export const adminProjectRepo = {
+  getAll() {
+    return [];
+  },
 
-    getAll() {
-        return [];
-    },
+  useProjects(): Project[] {
+    return [];
+  },
 
-    getById(id: string) {
-        return undefined;
-    },
+  getById(id: string) {
+    return undefined;
+  },
 
-    create(name: string) {},
+  create(name: string) {},
 
-    delete(id: string) {},
+  delete(id: string) {},
 };

@@ -13,6 +13,10 @@ export const projectRepository = {
     return repo().getAll();
   },
 
+   useProjects() {
+        return repo().useProjects();
+    },
+
   getById(id: string) {
     return repo().getById(id);
   },

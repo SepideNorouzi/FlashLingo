@@ -17,7 +17,7 @@ interface CardStore {
 }
 
 export const useCardStore = create<CardStore>((set) => ({
-  cards: [],
+  cards: structuredClone(mockFlashcards),
 
   setCards: (cards) =>
     set({
