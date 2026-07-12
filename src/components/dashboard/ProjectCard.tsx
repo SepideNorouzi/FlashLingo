@@ -35,28 +35,37 @@ function ProjectCard({
     >
       {/* Clickable project */}
       <button
-        onClick={onClick}
-        className="flex flex-1 items-center justify-between text-left"
-      >
-        <div>
-          <h3
-            className="text-lg font-semibold"
-            style={{ color: "var(--text)" }}
-          >
-            {name}
-          </h3>
-        </div>
+  onClick={onClick}
+  className="flex flex-1 items-center gap-3 text-left min-w-0"
+>
+  <div className="min-w-0 flex-1">
+    <h3
+      className="truncate text-base font-semibold sm:text-lg"
+      style={{ color: "var(--text)" }}
+    >
+      {name}
+    </h3>
+  </div>
 
-        <span
-          className="rounded-full px-3 py-1 text-sm font-semibold"
-          style={{
-            background: "var(--primary-light)",
-            color: "var(--primary)",
-          }}
-        >
-          {flashcardCount} cards
-        </span>
-      </button>
+  <span
+    className="
+      shrink-0
+      whitespace-nowrap
+      rounded-full
+      px-3
+      py-1
+      text-xs
+      font-semibold
+      sm:text-sm
+    "
+    style={{
+      background: "var(--primary-light)",
+      color: "var(--primary)",
+    }}
+  >
+    {flashcardCount} cards
+  </span>
+</button>
 
       {/* Delete */}
       <button
