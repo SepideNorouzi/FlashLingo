@@ -143,25 +143,15 @@ function SessionComplete({ correct, wrong }: SessionCompleteProps) {
             </div>
           </div>
 
-          {/* Footer */}
 
-          <div
-            className={`relative z-10 mt-8 flex justify-center ${styles.footer}`}
-          >
-            <div
-              className="rounded-2xl px-5 py-3 sm:px-6"
-              style={{
-                background: "rgba(255,255,255,.8)",
-                backdropFilter: "blur(10px)",
-              }}
+          {/* Footer */}
+          <div className="relative z-10 w-full flex justify-center">
+            <p
+              className="text-center text-xs sm:text-sm w-full px-2"
+              style={{ color: "var(--text-light)" }}
             >
-              <p
-                className="text-center text-xs sm:text-sm"
-                style={{ color: "var(--text-light)" }}
-              >
-                Tap anywhere to return to dashboard
-              </p>
-            </div>
+              Tap anywhere to return to dashboard
+            </p>
           </div>
         </CardShell>
       </div>

@@ -98,10 +98,6 @@ function Header({ username, reviewCards, totalCards }: HeaderProps) {
 
             <div
               className="absolute -right-2 top-8 h-20 w-20 rounded-full blur-3xl"
-              style={{
-                background: "var(--secondary)",
-                opacity: 0.35,
-              }}
             />
 
             {/* Image */}
