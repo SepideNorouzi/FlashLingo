@@ -15,119 +15,150 @@ function SessionComplete({ correct, wrong }: SessionCompleteProps) {
   const accuracy = total === 0 ? 0 : Math.round((correct / total) * 100);
 
   return (
-    <main
-      className={`min-h-screen flex items-center justify-center px-5 ${styles.page}`}
+     <main
+      className={`min-h-screen flex items-center justify-center px-4 sm:px-6 ${styles.page}`}
     >
       <div
-        className={`w-full max-w-[560px] cursor-pointer ${styles.cardWrapper}`}
+        className={`
+          w-full
+          max-w-[360px]
+          sm:max-w-[430px]
+          md:max-w-[560px]
+          cursor-pointer
+          ${styles.cardWrapper}
+        `}
         onClick={() => navigate("/")}
       >
         <CardShell>
-          {/* Decorations */}
-
-          <span className="absolute right-8 top-[30%] text-3xl opacity-40">
-            🎉
-          </span>
+          {/* Floating decorations */}
 
           <span
-            className={`absolute top-8 left-10 text-2xl opacity-40 ${styles.sparkle1}`}
+            className={`absolute top-[9%] left-[8%] text-xl md:text-2xl ${styles.sparkle1}`}
           >
             ✨
           </span>
 
           <span
-            className={`absolute top-16 right-10 text-3xl ${styles.trophy}`}
+            className={`absolute top-[7%] right-[8%] text-3xl md:text-4xl ${styles.trophy}`}
           >
             🏆
           </span>
 
           <span
-            className={`absolute bottom-24 left-10 text-xl opacity-35 ${styles.sparkle2}`}
+            className={`absolute bottom-[18%] left-[10%] text-lg md:text-xl ${styles.sparkle2}`}
           >
             🌸
           </span>
 
           <span
-            className={`absolute bottom-14 right-12 text-xl opacity-40 ${styles.sparkle3}`}
+            className={`absolute bottom-[14%] right-[10%] text-lg md:text-xl ${styles.sparkle3}`}
           >
             ⭐
           </span>
 
-          {/* Top */}
+          {/* Header */}
 
           <div
-            className={`relative z-10 text-center space-y-3 ${styles.title}`}
+            className={`relative z-10 flex flex-col items-center ${styles.title}`}
           >
             <p
-              className="text-sm font-semibold"
+              className="text-xs sm:text-sm font-semibold tracking-wide"
               style={{ color: "var(--primary)" }}
             >
               FlashLingo
             </p>
-          </div>
 
-          {/* Middle */}
-
-          <div className="relative z-10 text-center space-y-3">
             <h1
-              className="text-4xl md:text-5xl font-bold"
+              className="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold text-center"
               style={{ color: "var(--text)" }}
             >
               Session Complete
             </h1>
 
-            <p className="text-lg" style={{ color: "var(--text-light)" }}>
+            <p
+              className="mt-3 max-w-[240px] sm:max-w-xs text-center text-sm sm:text-base md:text-lg"
+              style={{ color: "var(--text-light)" }}
+            >
               Great work! You reviewed every card.
             </p>
+          </div>
 
-            <div className={`grid grid-cols-2 gap-4 mt-8 ${styles.stats}`}>
-              <div className={`rounded-3xl p-5 ${styles.statCard}`}>
-                <p className="text-sm" style={{ color: "var(--text-light)" }}>
-                  Correct
-                </p>
+          {/* Statistics */}
 
-                <p className="text-4xl font-bold"> {correct}</p>
-              </div>
-
-              <div
-                className="rounded-3xl p-5"
-                style={{
-                  background: "rgba(255,255,255,.75)",
-                }}
+          <div
+            className={`relative z-10 mt-8 grid grid-cols-3 gap-3 md:gap-4 ${styles.stats}`}
+          >
+            <div
+              className={`${styles.statCard} rounded-2xl p-3 sm:p-4 md:p-5 text-center`}
+            >
+              <p
+                className="text-[11px] sm:text-xs md:text-sm"
+                style={{ color: "var(--text-light)" }}
               >
-                <p className="text-sm" style={{ color: "var(--text-light)" }}>
-                  Mistakes
-                </p>
-
-                <p className="text-4xl font-bold"> {wrong}</p>
-              </div>
-            </div>
-
-            <div className={`rounded-3xl mt-6 p-5 ${styles.accuracy}`}>
-              <p className="text-sm" style={{ color: "var(--text-light)" }}>
-                Accuracy
+                ✅ Correct
               </p>
 
               <p
-                className="text-5xl font-bold mt-2"
+                className="mt-2 text-2xl sm:text-3xl md:text-4xl font-bold"
+                style={{ color: "var(--text)" }}
+              >
+                {correct}
+              </p>
+            </div>
+
+            <div
+              className={`${styles.statCard} rounded-2xl p-3 sm:p-4 md:p-5 text-center`}
+            >
+              <p
+                className="text-[11px] sm:text-xs md:text-sm"
+                style={{ color: "var(--text-light)" }}
+              >
+                🎯 Accuracy
+              </p>
+
+              <p
+                className="mt-2 text-2xl sm:text-3xl md:text-4xl font-bold"
                 style={{ color: "var(--primary)" }}
               >
                 {accuracy}%
               </p>
             </div>
+
+            <div
+              className={`${styles.statCard} rounded-2xl p-3 sm:p-4 md:p-5 text-center`}
+            >
+              <p
+                className="text-[11px] sm:text-xs md:text-sm"
+                style={{ color: "var(--text-light)" }}
+              >
+                🌱 Review
+              </p>
+
+              <p
+                className="mt-2 text-2xl sm:text-3xl md:text-4xl font-bold"
+                style={{ color: "var(--text)" }}
+              >
+                {wrong}
+              </p>
+            </div>
           </div>
 
-          {/* Bottom */}
+          {/* Footer */}
 
-          <div className={`relative z-10 ${styles.footer}`}>
+          <div
+            className={`relative z-10 mt-8 flex justify-center ${styles.footer}`}
+          >
             <div
-              className="rounded-full px-6 py-3"
+              className="rounded-2xl px-5 py-3 sm:px-6"
               style={{
                 background: "rgba(255,255,255,.8)",
                 backdropFilter: "blur(10px)",
               }}
             >
-              <p className="text-sm" style={{ color: "var(--text-light)" }}>
+              <p
+                className="text-center text-xs sm:text-sm"
+                style={{ color: "var(--text-light)" }}
+              >
                 Tap anywhere to return to dashboard
               </p>
             </div>
