@@ -12,13 +12,20 @@ function FlashcardPage() {
   const [searchParams] = useSearchParams();
 
   const projectId = searchParams.get("projectId") ?? undefined;
-  
+
   const { cards } = useFlashcards({
     projectId,
   });
 
-  const { currentCard, currentIndex, isFinished, onCorrect, onWrong } =
-    useCardSession(cards);
+  const {
+    currentCard,
+    currentIndex,
+    isFinished,
+    correctCount,
+    wrongCount,
+    onCorrect,
+    onWrong,
+  } = useCardSession(cards);
 
   const { getProject } = useProjects();
 
@@ -29,7 +36,7 @@ function FlashcardPage() {
   }
 
   if (isFinished) {
-    return <SessionComplete />;
+    return <SessionComplete correct={correctCount} wrong={wrongCount} />;
   }
 
   return (
