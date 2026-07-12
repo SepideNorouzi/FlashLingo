@@ -1,4 +1,4 @@
-import {type Project } from "../../types/project";
+import { type Project } from "../../types/project";
 
 export const adminProjectRepo = {
   getAll() {
@@ -9,11 +9,11 @@ export const adminProjectRepo = {
     return [];
   },
 
-  getById(id: string) {
+  getById() {
     return undefined;
   },
 
-  create(name: string) {},
+  create() {},
 
-  delete(id: string) {},
+  delete() {},
 };

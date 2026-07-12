@@ -1,22 +1,21 @@
 import type { FlashCard } from "../../types/flashcard";
-import type { FlashcardFilters } from "../../types/cardFilter";
 
 export const adminCardRepo = {
-  getCards(filters: FlashcardFilters = {}) {
+  getCards() {
     return [] as FlashCard[];
   },
 
-  useCards(filters: FlashcardFilters = {}) {
+  useCards() {
     return [] as FlashCard[];
   },
 
-  getById(id: string) {
+  getById() {
     return undefined;
   },
 
-  create(card: FlashCard) {},
+  create() {},
 
-  update(id: string, changes: Partial<FlashCard>) {},
+  update() {},
 
-  delete(id: string) {},
+  delete() {},
 };
