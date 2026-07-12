@@ -9,7 +9,7 @@ interface MainProps {
 
 function Main({ totalCards, mistakeCards }: MainProps) {
   return (
-    <section className="mt-7 grid grid-cols-2 gap-5">
+    <section className="mt-7 grid grid-cols-2 items-stretch gap-5">
       <StatCard
         title="Last Mistakes"
         count={mistakeCards}

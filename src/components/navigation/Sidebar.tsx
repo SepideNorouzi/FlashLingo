@@ -27,25 +27,22 @@ function Sidebar({ onOpenModal }: SidebarProps) {
   ];
 
   return (
-    <aside
-      className="
+<aside
+  className="
     hidden
-    md:sticky
-    md:top-0
     md:flex
-    md:h-screen
+    h-full
     w-72
     flex-col
     justify-between
     border-l
     p-8
   "
-      style={{
-        background:
-          "linear-gradient(180deg,var(--surface),var(--surface-soft))",
-        borderColor: "var(--border)",
-      }}
-    >
+  style={{
+    background: "linear-gradient(180deg,var(--surface),var(--surface-soft))",
+    borderColor: "var(--border)",
+  }}
+>
       {/* Top */}
       <div>
         {/* Logo */}

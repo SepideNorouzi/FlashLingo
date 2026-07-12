@@ -14,8 +14,8 @@ function Navbar() {
 
   return (
     <>
-      {/* Desktop */}
-      <div className="hidden md:block">
+      {/* Desktop — wrapper must be sticky and full height */}
+      <div className="hidden md:sticky md:top-0 md:block md:h-screen">
         <Sidebar onOpenModal={openModal} />
       </div>
 
@@ -26,9 +26,7 @@ function Navbar() {
 
       {/* Modals */}
       <AddCardModal open={activeModal === "add-card"} onClose={closeModal} />
-
       <SearchModal open={activeModal === "search"} onClose={closeModal} />
-
       <SettingModal open={activeModal === "settings"} onClose={closeModal} />
     </>
   );

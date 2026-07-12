@@ -18,7 +18,7 @@ function StatCard({ title, count, image, to }: StatCardProps) {
         className="
 group
 flex
-min-h-56
+h-full
 flex-col
 items-center
 justify-center
@@ -32,7 +32,7 @@ duration-300
 hover:-translate-y-1
 hover:shadow-xl
 
-md:h-56
+md:h-full
 md:flex-row
 md:justify-between
 md:px-8
@@ -83,16 +83,7 @@ md:px-8
         <img
           src={image}
           alt={title}
-          className="
-      mt-4
-      h-35
-      w-35
-      object-contain
-
-      md:mt-0
-      md:h-60
-      md:w-60
-    "
+          className="mt-4 w-full max-w-[100px] object-contain md:mt-0 md:max-w-[250px]"
         />
       </article>
     </Link>
