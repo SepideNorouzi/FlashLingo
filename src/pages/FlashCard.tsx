@@ -12,11 +12,11 @@ function FlashcardPage() {
   const [searchParams] = useSearchParams();
 
   const projectId = searchParams.get("projectId") ?? undefined;
-   const mode = searchParams.get("mode") ?? undefined;  
+  const mode = searchParams.get("mode") ?? undefined;
 
   const { cards } = useFlashcards({
     projectId,
-    mistakeOnly: mode === "mistakes",                       
+    mistakeOnly: mode === "mistakes",
   });
 
   const {
@@ -68,7 +68,7 @@ function FlashcardPage() {
           card={currentCard}
           onCorrect={onCorrect}
           onWrong={onWrong}
-          projectName={project?.name ?? "Unknown Project"}
+          projectName={project ? project.name : "Mixed Review"}
         />
       </div>
     </main>

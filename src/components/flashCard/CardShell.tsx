@@ -18,7 +18,7 @@ function CardShell({ children, background }: CardShellProps) {
         flex-col
         items-center
         justify-between
-        overflow-hidden
+        overflow-visible
         rounded-[36px]
         border
         p-8
