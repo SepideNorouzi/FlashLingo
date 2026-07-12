@@ -2,6 +2,7 @@ import BaseModal from "./BaseModal";
 import type { ModalProps } from "../../types/modal";
 import { useState } from "react";
 import { useProjects } from "../../hooks/useProjects";
+import { cardRepository } from "../../repository/cardRepository";
 
 function AddCardModal(props: ModalProps) {
   const [word, setWord] = useState("");
@@ -11,25 +12,39 @@ function AddCardModal(props: ModalProps) {
 
   const { projects } = useProjects();
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!word.trim() || !meaning.trim() || !projectId) return;
+
+    cardRepository.create({
+      id: crypto.randomUUID(),
+      word,
+      pronunciation,
+      meaning,
+      projectId,
+      learned: false,
+      mistake: false,
+      createdAt: new Date().toISOString(),
+    });
+
+    props.onClose();
+  };
 
   return (
     <BaseModal {...props} title="Add Flashcard">
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Project */}
 
-    <div className="space-y-2">
-      <label
-        className="input-label"
-        style={{ color: "var(--text)" }}
-      >
-        Project
-      </label>
+        <div className="space-y-2">
+          <label className="input-label" style={{ color: "var(--text)" }}>
+            Project
+          </label>
 
-      <select
-        value={projectId}
-        onChange={(e) => setProjectId(e.target.value)}
-        className="
+          <select
+            value={projectId}
+            onChange={(e) => setProjectId(e.target.value)}
+            className="
           w-full
           rounded-2xl
           border
@@ -40,23 +55,20 @@ function AddCardModal(props: ModalProps) {
           duration-200
           focus:ring-2
         "
-        style={{
-          background: "var(--surface-soft)",
-          borderColor: "var(--border)",
-        }}
-      >
-        <option value="">Choose a project...</option>
-
-        {projects.map((project) => (
-          <option
-            key={project.id}
-            value={project.id}
+            style={{
+              background: "var(--surface-soft)",
+              borderColor: "var(--border)",
+            }}
           >
-            {project.name}
-          </option>
-        ))}
-      </select>
-    </div>
+            <option value="">Choose a project...</option>
+
+            {projects.map((project) => (
+              <option key={project.id} value={project.id}>
+                {project.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         {/* Word */}
 
@@ -74,9 +86,7 @@ function AddCardModal(props: ModalProps) {
         {/* Pronunciation */}
 
         <div>
-          <label className="input-label">
-            Pronunciation
-          </label>
+          <label className="input-label">Pronunciation</label>
 
           <input
             value={pronunciation}
@@ -89,7 +99,7 @@ function AddCardModal(props: ModalProps) {
         {/* Meaning */}
 
         <div>
-          <label  className="input-label">Meaning</label>
+          <label className="input-label">Meaning</label>
 
           <textarea
             rows={2}

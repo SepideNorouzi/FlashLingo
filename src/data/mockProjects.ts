@@ -12,8 +12,18 @@ export const mockProjects: Project[] = [
     createdAt: "2026-07-02",
   },
   {
-    id: "Italian-Verbs",
+    id: "italian-verbs",
     name: "Italian Verbs",
     createdAt: "2026-07-03",
+  },
+  {
+    id: "travel",
+    name: "Travel Italian",
+    createdAt: "2026-07-04",
+  },
+  {
+    id: "food",
+    name: "Food & Restaurant",
+    createdAt: "2026-07-05",
   },
 ];

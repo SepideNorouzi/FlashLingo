@@ -15,7 +15,7 @@ function SessionComplete({ correct, wrong }: SessionCompleteProps) {
   const accuracy = total === 0 ? 0 : Math.round((correct / total) * 100);
 
   return (
-     <main
+    <main
       className={`min-h-screen flex items-center justify-center px-4 sm:px-6 ${styles.page}`}
     >
       <div
