@@ -12,9 +12,11 @@ function FlashcardPage() {
   const [searchParams] = useSearchParams();
 
   const projectId = searchParams.get("projectId") ?? undefined;
+   const mode = searchParams.get("mode") ?? undefined;  
 
   const { cards } = useFlashcards({
     projectId,
+    mistakeOnly: mode === "mistakes",                       
   });
 
   const {
