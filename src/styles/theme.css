@@ -1,24 +1,24 @@
 :root {
-  --bg: #f7f4ff;
+  --bg: #f0eaff;
   --surface: #ffffff;
-  --surface-soft: #fdf8ff;
+  --surface-soft: #f8f4ff;
 
-  --primary: #a78bfa;
-  --primary-light: #ddd6fe;
+  --primary: #7c3aed;
+  --primary-light: #ede9fe;
 
-  --secondary: #f9a8d4;
-  --secondary-light: #fde7f3;
+  --secondary: #e11d78;
+  --secondary-light: #fce7f3;
 
-  --accent: #818cf8;
+  --accent: #6d28d9;
 
-  --text: #2b2940;
-  --text-light: #6b6b80;
+  --text: #1e1140;
+  --text-light: #5b4b8a;
 
-  --border: #ece7ff;
+  --border: #ddd6fe;
 
-  --shadow: rgba(164, 136, 255, 0.18);
+  --shadow: rgba(124, 58, 237, 0.15);
 
   /* Gradients */
-  --surface-gradient: linear-gradient(135deg, #ffffff, #fdf8ff);
-  --button-gradient: linear-gradient(135deg, #a78bfa, #f9a8d4);
+  --surface-gradient: linear-gradient(135deg, #ffffff, #f8f4ff);
+  --button-gradient: linear-gradient(135deg, #7c3aed, #e11d78);
 }

@@ -16,27 +16,25 @@ function StatCard({ title, count, image, to }: StatCardProps) {
     >
       <article
         className="
-group
-flex
-h-full
-flex-col
-items-center
-justify-center
-gap-5
-px-6
-py-6
-rounded-[30px]
-border
-transition-all
-duration-300
-hover:-translate-y-1
-hover:shadow-xl
-
-md:h-full
-md:flex-row
-md:justify-between
-md:px-8
-"
+          group
+          flex
+          h-full
+          flex-col
+          items-center
+          justify-between
+          gap-3
+          px-4
+          py-6
+          rounded-[30px]
+          border
+          transition-all
+          duration-300
+          hover:-translate-y-1
+          hover:shadow-xl
+          md:flex-row
+          md:justify-between
+          md:px-8
+        "
         style={{
           background:
             "linear-gradient(135deg,var(--surface),var(--surface-soft))",
@@ -44,32 +42,18 @@ md:px-8
           boxShadow: "0 15px 35px var(--shadow)",
         }}
       >
-        <div
-          className="
-    flex
-    flex-col
-    items-center
-    text-center
-
-    md:items-start
-    md:text-left
-  "
-        >
-          <h2 className="text-xl font-bold" style={{ color: "var(--text)" }}>
+        {/* Text block */}
+        <div className="flex flex-col items-center text-center md:items-start md:text-left">
+          <h2
+            className="text-sm font-bold leading-tight whitespace-nowrap md:text-2xl md:whitespace-normal"
+            style={{ color: "var(--text)" }}
+          >
             {title}
           </h2>
 
           {count !== undefined && (
             <span
-              className="
-  mt-3
-  inline-flex
-  rounded-full
-  px-3
-  py-1
-  text-xs
-  font-semibold
-"
+              className="mt-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold"
               style={{
                 background: "var(--primary-light)",
                 color: "var(--primary)",
@@ -80,10 +64,11 @@ md:px-8
           )}
         </div>
 
+        {/* Image */}
         <img
           src={image}
           alt={title}
-          className="mt-4 w-full max-w-[100px] object-contain md:mt-0 md:max-w-[250px]"
+          className="w-full max-w-[80px] object-contain md:max-w-[200px]"
         />
       </article>
     </Link>
