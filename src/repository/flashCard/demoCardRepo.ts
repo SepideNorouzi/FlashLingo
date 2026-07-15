@@ -1,4 +1,7 @@
+import { useMutation } from "@tanstack/react-query";
+
 import { useCardStore } from "../../store/demoCardStore";
+
 import type { FlashCard } from "../../types/flashcard";
 import type { FlashcardFilters } from "../../types/cardFilter";
 
@@ -43,17 +46,35 @@ export const demoCardRepo = {
     return useCardStore.getState().cards.find((card) => card.id === id);
   },
 
-  create(card: FlashCard) {
-    useCardStore.getState().addCard(card);
+  useCreateCard() {
+    return useMutation({
+      mutationFn: async (card: FlashCard) => {
+        useCardStore.getState().addCard(card);
 
-    return card;
+        return card;
+      },
+    });
   },
 
-  update(id: string, changes: Partial<FlashCard>) {
-    useCardStore.getState().updateCard(id, changes);
+  useUpdateCard() {
+    return useMutation({
+      mutationFn: async ({
+        id,
+        changes,
+      }: {
+        id: string;
+        changes: Partial<FlashCard>;
+      }) => {
+        useCardStore.getState().updateCard(id, changes);
+      },
+    });
   },
 
-  delete(id: string) {
-    useCardStore.getState().deleteCard(id);
+  useDeleteCard() {
+    return useMutation({
+      mutationFn: async (id: string) => {
+        useCardStore.getState().deleteCard(id);
+      },
+    });
   },
 };

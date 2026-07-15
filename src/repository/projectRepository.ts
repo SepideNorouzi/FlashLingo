@@ -13,19 +13,19 @@ export const projectRepository = {
     return repo().getAll();
   },
 
-   useProjects() {
-        return repo().useProjects();
-    },
+  useProjects() {
+    return repo().useProjects();
+  },
 
   getById(id: string) {
     return repo().getById(id);
   },
 
-  create(name: string) {
-    return repo().create(name);
+  useCreateProject() {
+    return repo().useCreateProject();
   },
 
-  delete(id: string) {
-    return repo().delete(id);
+  useDeleteProject() {
+    return repo().useDeleteProject();
   },
 };

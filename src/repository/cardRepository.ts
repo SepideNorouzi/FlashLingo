@@ -3,7 +3,6 @@ import { useModeStore } from "../store/modeStore";
 import { demoCardRepo } from "./flashCard/demoCardRepo";
 import { adminCardRepo } from "./flashCard/adminCardRepo";
 
-import type { FlashCard } from "../types/flashcard";
 import type { FlashcardFilters } from "../types/cardFilter";
 
 function repo() {
@@ -23,15 +22,15 @@ export const cardRepository = {
     return repo().getById(id);
   },
 
-  create(card: FlashCard) {
-    return repo().create(card);
+  useCreateCard() {
+    return repo().useCreateCard();
   },
 
-  update(id: string, changes: Partial<FlashCard>) {
-    return repo().update(id, changes);
+  useUpdateCard() {
+    return repo().useUpdateCard();
   },
 
-  delete(id: string) {
-    return repo().delete(id);
+  useDeleteCard() {
+    return repo().useDeleteCard();
   },
 };

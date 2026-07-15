@@ -1,19 +1,53 @@
-import { type Project } from "../../types/project";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { projectService } from "../../services/Project";
+import type { Project } from "../../types/project";
+
+const PROJECTS_KEY = ["projects"];
 
 export const adminProjectRepo = {
-  getAll() {
-    return [];
+  async getAll() {
+    return await projectService.getAll();
   },
 
   useProjects(): Project[] {
-    return [];
+    const { data = [] } = useQuery({
+      queryKey: PROJECTS_KEY,
+      queryFn: projectService.getAll,
+    });
+
+    return data;
   },
 
-  getById() {
-    return undefined;
+  async getById(id: string) {
+    return await projectService.getById(id);
   },
 
-  create() {},
+  useCreateProject() {
+    const queryClient = useQueryClient();
 
-  delete() {},
+    return useMutation({
+      mutationFn: projectService.create,
+
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: PROJECTS_KEY,
+        });
+      },
+    });
+  },
+
+  useDeleteProject() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: projectService.delete,
+
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: PROJECTS_KEY,
+        });
+      },
+    });
+  },
 };

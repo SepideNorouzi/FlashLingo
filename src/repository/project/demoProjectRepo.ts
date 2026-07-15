@@ -1,5 +1,6 @@
+import { useMutation } from "@tanstack/react-query";
 import { useProjectStore } from "../../store/demoProjectStore";
-import { type Project } from "../../types/project";
+import type { Project } from "../../types/project";
 
 export const demoProjectRepo = {
   getAll() {
@@ -16,19 +17,27 @@ export const demoProjectRepo = {
       .projects.find((project) => project.id === id);
   },
 
-  create(name: string) {
-    const project: Project = {
-      id: crypto.randomUUID(),
-      name,
-      createdAt: new Date().toISOString(),
-    };
+  useCreateProject() {
+    return useMutation({
+      mutationFn: async (name: string) => {
+        const project: Project = {
+          id: crypto.randomUUID(),
+          name,
+          createdAt: new Date().toISOString(),
+        };
 
-    useProjectStore.getState().addProject(project);
+        useProjectStore.getState().addProject(project);
 
-    return project;
+        return project;
+      },
+    });
   },
 
-  delete(id: string) {
-    useProjectStore.getState().deleteProject(id);
+  useDeleteProject() {
+    return useMutation({
+      mutationFn: async (id: string) => {
+        useProjectStore.getState().deleteProject(id);
+      },
+    });
   },
 };
