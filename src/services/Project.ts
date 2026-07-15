@@ -1,30 +1,51 @@
-import { mockProjects } from "../data/mockProjects";
-import { type Project } from "../types/project";
-
-let projects = [...mockProjects];
+import { supabase } from "../lib/supabase";
 
 export const projectService = {
-  getAll() {
-    return projects;
+  async getAll() {
+    const { data, error } = await supabase.from("projects").select("*");
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
   },
 
-  getById(id: string) {
-    return projects.find((project) => project.id === id);
+  async getById(id: string) {
+    const { data, error } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
   },
 
-  create(name: string): Project {
-    const project: Project = {
-      id: crypto.randomUUID(),
-      name,
-      createdAt: new Date().toISOString(),
-    };
+  async create(name: string) {
+    const { data, error } = await supabase
+      .from("projects")
+      .insert({
+        name,
+      })
+      .select()
+      .single();
 
-    projects.push(project);
+    if (error) {
+      throw error;
+    }
 
-    return project;
+    return data;
   },
 
-  delete(id: string) {
-    projects = projects.filter((project) => project.id !== id);
+  async delete(id: string) {
+    const { error } = await supabase.from("projects").delete().eq("id", id);
+
+    if (error) {
+      throw error;
+    }
   },
 };
