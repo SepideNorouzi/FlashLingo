@@ -1,9 +1,36 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  loginSchema,
+  signupSchema,
+  type LoginForm,
+  type SignupForm,
+} from "../schemas/authSchema";
 
 import styles from "../styles/AuthLayout.module.css";
 
+type AuthForm = {
+  username?: string;
+  email: string;
+  password: string;
+};
+
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<AuthForm>({
+    resolver: zodResolver(isLogin ? loginSchema : signupSchema),
+  });
+
+  async function onSubmit(data: LoginForm | SignupForm) {
+    console.log(data);
+  }
 
   return (
     <main
@@ -63,7 +90,10 @@ function Auth() {
           </p>
         </div>
 
-        <form className={`${styles.actions} mt-10 space-y-5`}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={`${styles.actions} mt-10 space-y-5`}
+        >
           <div
             className={`
     overflow-hidden
@@ -84,6 +114,7 @@ function Auth() {
                 </label>
 
                 <input
+                  {...register("username")}
                   type="text"
                   placeholder="Sepide"
                   className="
@@ -104,6 +135,11 @@ focus:ring-2
                     boxShadow: "0 0 0 transparent",
                   }}
                 />
+                {errors.username && (
+                  <p className="mt-2 text-sm text-red-500">
+                    {errors.username.message}
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -118,6 +154,7 @@ focus:ring-2
             </label>
 
             <input
+              {...register("email")}
               type="email"
               placeholder="you@example.com"
               className="
@@ -138,6 +175,11 @@ focus:ring-2
                 boxShadow: "0 0 0 transparent",
               }}
             />
+            {errors.email && (
+              <p className="mt-2 text-sm text-red-500">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -151,6 +193,7 @@ focus:ring-2
             </label>
 
             <input
+              {...register("password")}
               type="password"
               placeholder="••••••••"
               className="
@@ -171,9 +214,15 @@ focus:ring-2
                 boxShadow: "0 0 0 transparent",
               }}
             />
+            {errors.password && (
+              <p className="mt-2 text-sm text-red-500">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           <button
+            disabled={isSubmitting}
             className="
               mt-6
               w-full
@@ -191,7 +240,11 @@ focus:ring-2
               color: "white",
             }}
           >
-            {isLogin ? "Sign In" : "Create Account"}
+            {isSubmitting
+              ? "Loading..."
+              : isLogin
+                ? "Sign In"
+                : "Create Account"}
           </button>
         </form>
 
@@ -207,7 +260,10 @@ focus:ring-2
 
           <button
             type="button"
-            onClick={() => setIsLogin((prev) => !prev)}
+            onClick={() => {
+              setIsLogin((prev) => !prev);
+              reset();
+            }}
             className="ml-2 font-semibold transition"
             style={{
               color: "var(--primary)",
