@@ -1,5 +1,5 @@
 function AuthPage() {
-  return <div>AuthPage</div>;
+  return <div>AuthPage in progress</div>;
 }
 
 export default AuthPage;

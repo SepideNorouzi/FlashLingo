@@ -4,14 +4,16 @@ import MainLayout from "../layout/MainLayout";
 import Flashcard from "../pages/FlashCard";
 import StudyLayout from "../layout/StudyLayout";
 import Intro from "../pages/Intro";
+import AuthPage from "../pages/AuthPage";
 
 function Router() {
   return (
     <div>
       <Routes>
-        <Route path="/intro" element={<Intro />} />
+        <Route path="/" element={<Intro />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route element={<MainLayout />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
 
         <Route element={<StudyLayout />}>
