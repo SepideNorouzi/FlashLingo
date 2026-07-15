@@ -14,7 +14,7 @@ function CardHeader({ current, total }: CardHeaderProps) {
       {/* Top Row */}
       <div className="flex items-center justify-between">
         <Link
-          to="/"
+          to="/dashboard"
           className="
             flex
             items-center
