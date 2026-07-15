@@ -1,0 +1,7 @@
+// signUp()
+
+// signIn()
+
+// signOut()
+
+// getSession()
