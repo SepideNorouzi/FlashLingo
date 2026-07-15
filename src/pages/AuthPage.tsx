@@ -1,15 +1,28 @@
 import { useState } from "react";
 
+import styles from "../styles/AuthLayout.module.css";
+
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
 
   return (
     <main
-      className="min-h-screen flex items-center justify-center px-6 py-10"
+      className={`${styles.page} min-h-screen flex items-center justify-center px-6 py-10`}
       style={{
         background: "var(--bg)",
       }}
     >
+      <span className={`${styles.sparkle} ${styles.sparkle1}`}>🌸</span>
+
+      <span className={`${styles.sparkle} ${styles.sparkle2}`}>✨</span>
+
+      <span className={`${styles.sparkle} ${styles.sparkle3}`}>💮</span>
+
+      <span className={`${styles.sparkle} ${styles.sparkle4}`}>🌷</span>
+
+      <span className={`${styles.sparkle} ${styles.sparkle5}`}>✨</span>
+
+      <span className={`${styles.sparkle} ${styles.sparkle6}`}>🌸</span>
       <div
         className="w-full max-w-xl rounded-3xl border p-10"
         style={{
@@ -20,16 +33,26 @@ function Auth() {
       >
         <div className="text-center">
           <h2
-            className="mt-10 text-3xl font-semibold"
+            className={`${styles.title}
+    mt-8
+    text-2xl
+    sm:text-3xl
+    font-semibold`}
             style={{
               color: "var(--text)",
             }}
           >
-            {isLogin ? "Welcome back" : "Create your account"}
+            {isLogin ? "Welcome back!" : "Create your account"}
           </h2>
 
           <p
-            className="mt-4 leading-7"
+            className={`${styles.subtitle}
+    mt-5
+    text-base
+    sm:text-lg
+    leading-7
+    max-w-sm
+    mx-auto`}
             style={{
               color: "var(--text-light)",
             }}
@@ -40,36 +63,50 @@ function Auth() {
           </p>
         </div>
 
-        <form className="mt-10 space-y-5">
-          {!isLogin && (
-            <div>
-              <label
-                className="mb-2 block text-sm font-medium"
-                style={{
-                  color: "var(--text)",
-                }}
-              >
-                Username
-              </label>
+        <form className={`${styles.actions} mt-10 space-y-5`}>
+          <div
+            className={`
+    overflow-hidden
+    transition-all
+    duration-300
+    ${isLogin ? "max-h-0 opacity-0" : "max-h-40 opacity-100"}
+  `}
+          >
+            {!isLogin && (
+              <div className="pb-5">
+                <label
+                  className="mb-2 block text-sm font-medium"
+                  style={{
+                    color: "var(--text)",
+                  }}
+                >
+                  Username
+                </label>
 
-              <input
-                type="text"
-                placeholder="Sepide"
-                className="
-                  w-full
-                  rounded-xl
-                  px-4
-                  py-3
-                  outline-none
-                "
-                style={{
-                  background: "var(--surface)",
-                  border: "1px solid var(--border)",
-                }}
-              />
-            </div>
-          )}
-
+                <input
+                  type="text"
+                  placeholder="Sepide"
+                  className="
+w-full
+rounded-xl
+px-4
+py-3
+outline-none
+transition-all
+duration-200
+focus:scale-[1.01]
+focus:ring-2
+"
+                  style={{
+                    background: "var(--surface)",
+                    border: "1px solid var(--border)",
+                    borderColor: "var(--border)",
+                    boxShadow: "0 0 0 transparent",
+                  }}
+                />
+              </div>
+            )}
+          </div>
           <div>
             <label
               className="mb-2 block text-sm font-medium"
@@ -84,15 +121,21 @@ function Auth() {
               type="email"
               placeholder="you@example.com"
               className="
-                w-full
-                rounded-xl
-                px-4
-                py-3
-                outline-none
-              "
+w-full
+rounded-xl
+px-4
+py-3
+outline-none
+transition-all
+duration-200
+focus:scale-[1.01]
+focus:ring-2
+"
               style={{
                 background: "var(--surface)",
                 border: "1px solid var(--border)",
+                borderColor: "var(--border)",
+                boxShadow: "0 0 0 transparent",
               }}
             />
           </div>
@@ -111,15 +154,21 @@ function Auth() {
               type="password"
               placeholder="••••••••"
               className="
-                w-full
-                rounded-xl
-                px-4
-                py-3
-                outline-none
-              "
+w-full
+rounded-xl
+px-4
+py-3
+outline-none
+transition-all
+duration-200
+focus:scale-[1.01]
+focus:ring-2
+"
               style={{
                 background: "var(--surface)",
                 border: "1px solid var(--border)",
+                borderColor: "var(--border)",
+                boxShadow: "0 0 0 transparent",
               }}
             />
           </div>

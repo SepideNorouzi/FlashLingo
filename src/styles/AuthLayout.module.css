@@ -1,0 +1,161 @@
+.page {
+  position: relative;
+  overflow: hidden;
+}
+
+.page::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(233, 185, 255, 0.18),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(255, 205, 226, 0.25),
+      transparent 45%
+    );
+
+  animation: glow 10s ease-in-out infinite alternate;
+}
+
+.sparkle {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+
+.sparkle1 {
+  top: 14%;
+  left: 10%;
+  font-size: 28px;
+  animation: float1 7s ease-in-out infinite;
+}
+
+.sparkle2 {
+  top: 18%;
+  right: 12%;
+  font-size: 22px;
+  animation: float2 6s ease-in-out infinite;
+}
+
+.sparkle3 {
+  bottom: 18%;
+  left: 12%;
+  font-size: 26px;
+  animation: float3 8s ease-in-out infinite;
+}
+
+.sparkle4 {
+  bottom: 12%;
+  right: 15%;
+  font-size: 18px;
+  animation: float2 7s ease-in-out infinite;
+}
+
+.sparkle5 {
+  top: 42%;
+  left: 6%;
+  font-size: 20px;
+  animation: float1 9s ease-in-out infinite;
+}
+
+.sparkle6 {
+  top: 55%;
+  right: 6%;
+  font-size: 24px;
+  animation: float3 8s ease-in-out infinite;
+}
+
+.logo {
+  display: inline-block;
+  animation: logoFloat 5s ease-in-out infinite;
+}
+
+.primaryButton {
+  position: relative;
+  overflow: hidden;
+}
+
+.primaryButton::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 80%
+  );
+
+  transform: translateX(-120%);
+}
+
+.primaryButton:hover::before {
+  transition: transform 0.7s ease;
+
+  transform: translateX(120%);
+}
+
+.flower {
+  display: inline-block;
+  animation: flowerSpin 8s ease-in-out infinite;
+}
+
+@keyframes flowerSpin {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(12deg) scale(1.08);
+  }
+}
+
+@keyframes logoFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes glow {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes float1 {
+  50% {
+    transform: translate(-8px, -18px) rotate(12deg);
+  }
+}
+
+@keyframes float2 {
+  50% {
+    transform: translate(10px, -15px) rotate(-10deg);
+  }
+}
+
+@keyframes float3 {
+  50% {
+    transform: translate(5px, -12px) rotate(10deg);
+  }
+}

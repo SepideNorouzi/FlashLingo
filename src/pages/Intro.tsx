@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router";
 import { useModeStore } from "../store/modeStore";
 
+import styles from "../styles/AuthLayout.module.css";
+
 function Intro() {
   const navigate = useNavigate();
 
@@ -18,18 +20,24 @@ function Intro() {
 
   return (
     <main
-      className="
-        min-h-screen
-        flex
-        items-center
-        justify-center
-        px-6
-        py-10
-      "
+      className={`${styles.page} min-h-screen flex items-center justify-center px-6 py-10`}
       style={{
         background: "var(--bg)",
       }}
     >
+      <span className={`hidden sm:block ${styles.sparkle} ${styles.sparkle1}`}>
+        🌸
+      </span>
+
+      <span className={`${styles.sparkle} ${styles.sparkle2}`}>✨</span>
+
+      <span className={`${styles.sparkle} ${styles.sparkle3}`}>💮</span>
+
+      <span className={`${styles.sparkle} ${styles.sparkle4}`}>🌷</span>
+
+      <span className={`${styles.sparkle} ${styles.sparkle5}`}>✨</span>
+
+      <span className={`${styles.sparkle} ${styles.sparkle6}`}>🌸</span>
       <div
         className="
           w-full
@@ -46,31 +54,31 @@ function Intro() {
       >
         <div className="text-center">
           <h1
-            className="
-              text-5xl
-              font-bold
-            "
-            style={{
-              color: "var(--text)",
-            }}
+            className={`${styles.title}
+    text-3xl
+    sm:text-3xl
+    md:text-4xl
+    font-bold
+    tracking-tight`}
           >
-            🌸 FlashLingo
+            <span className={styles.flower}>🌸</span> FlashLingo
           </h1>
 
           <p
             className="
-              mt-5
-              text-lg
-              leading-8
-            "
+mt-6
+text-base
+sm:text-lg
+leading-7
+sm:leading-8
+max-w-sm
+mx-auto
+"
             style={{
               color: "var(--text-light)",
             }}
           >
             Learn languages one flashcard at a time.
-            <br />
-            Build your own decks, review consistently, and remember more every
-            day.
           </p>
         </div>
 
