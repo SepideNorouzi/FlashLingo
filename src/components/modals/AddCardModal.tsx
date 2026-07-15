@@ -12,25 +12,29 @@ function AddCardModal(props: ModalProps) {
 
   const { projects } = useProjects();
 
+  const createCard = cardRepository.useCreateCard();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!word.trim() || !meaning.trim() || !projectId) return;
 
-    cardRepository.create({
-      id: crypto.randomUUID(),
-      word,
-      pronunciation,
-      meaning,
-      projectId,
-      learned: false,
-      mistake: false,
-      createdAt: new Date().toISOString(),
-    });
-
-    props.onClose();
+    createCard.mutate(
+      {
+        word,
+        pronunciation,
+        meaning,
+        projectId,
+        learned: false,
+        mistake: false,
+      },
+      {
+        onSuccess: () => {
+          props.onClose();
+        },
+      },
+    );
   };
-
   return (
     <BaseModal {...props} title="Add Flashcard">
       <form onSubmit={handleSubmit} className="space-y-5">

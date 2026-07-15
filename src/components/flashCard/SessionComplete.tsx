@@ -27,7 +27,7 @@ function SessionComplete({ correct, wrong }: SessionCompleteProps) {
           cursor-pointer
           ${styles.cardWrapper}
         `}
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/dashboard")}
       >
         <CardShell>
           {/* Floating decorations */}

@@ -4,11 +4,15 @@ import ProjectCard from "../components/dashboard/ProjectCard";
 
 import { useProjects } from "../hooks/useProjects";
 import { useFlashcards } from "../hooks/useCards";
+import { projectRepository } from "../repository/projectRepository";
 
 function Projects() {
   const navigate = useNavigate();
 
-  const { projects, totalProjects, addProject, deleteProject } = useProjects();
+  const { projects, totalProjects } = useProjects();
+
+  const createProject = projectRepository.useCreateProject();
+  const deleteProject = projectRepository.useDeleteProject();
 
   const { cards } = useFlashcards();
 
@@ -60,11 +64,11 @@ function Projects() {
               cards.filter((card) => card.projectId === project.id).length
             }
             onClick={() => navigate(`/flashcards?projectId=${project.id}`)}
-            onDelete={() => deleteProject(project.id)}
+            onDelete={() => deleteProject.mutate(project.id)}
           />
         ))}
 
-        <AddProjectCard onAdd={addProject} />
+        <AddProjectCard onAdd={(name) => createProject.mutate(name)} />
       </div>
     </section>
   );

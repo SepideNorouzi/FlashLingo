@@ -5,13 +5,7 @@ export function useProjects() {
 
   return {
     projects,
-
     totalProjects: projects.length,
-
     getProject: projectRepository.getById,
-
-    addProject: projectRepository.create,
-
-    deleteProject: projectRepository.delete,
   };
 }

@@ -48,10 +48,16 @@ export const demoCardRepo = {
 
   useCreateCard() {
     return useMutation({
-      mutationFn: async (card: FlashCard) => {
-        useCardStore.getState().addCard(card);
+      mutationFn: async (card: Omit<FlashCard, "id" | "createdAt">) => {
+        const newCard: FlashCard = {
+          ...card,
+          id: crypto.randomUUID(),
+          createdAt: new Date().toISOString(),
+        };
 
-        return card;
+        useCardStore.getState().addCard(newCard);
+
+        return newCard;
       },
     });
   },

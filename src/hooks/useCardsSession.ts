@@ -10,6 +10,7 @@ export function useCardSession(cards: FlashCard[]) {
 
   const currentCard = cards[currentIndex] ?? null;
   const isFinished = currentIndex >= cards.length || !currentCard;
+  const updateCard = cardRepository.useUpdateCard();
 
   const advance = useCallback(() => {
     if (!isFinished) {
@@ -20,28 +21,34 @@ export function useCardSession(cards: FlashCard[]) {
   const onCorrect = useCallback(() => {
     if (!currentCard) return;
 
-    // Mark as learned, clear mistake flag
-    cardRepository.update(currentCard.id, {
-      learned: true,
-      mistake: false,
+    updateCard.mutate({
+      id: currentCard.id,
+      changes: {
+        learned: true,
+        mistake: false,
+      },
     });
-    setCorrectCount((count) => count + 1);
+
+    setCorrectCount((c) => c + 1);
 
     advance();
-  }, [currentCard, advance]);
+  }, [currentCard, advance, updateCard]);
 
   const onWrong = useCallback(() => {
     if (!currentCard) return;
 
-    // Mark as mistake, not learned
-    cardRepository.update(currentCard.id, {
-      learned: false,
-      mistake: true,
+    updateCard.mutate({
+      id: currentCard.id,
+      changes: {
+        learned: false,
+        mistake: true,
+      },
     });
-    setWrongCount((count) => count + 1);
+
+    setWrongCount((c) => c + 1);
 
     advance();
-  }, [currentCard, advance]);
+  }, [currentCard, advance, updateCard]);
 
   return {
     currentCard,
