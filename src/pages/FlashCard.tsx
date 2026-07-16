@@ -7,6 +7,7 @@ import CardHeader from "../components/flashCard/CardHeader";
 import CardViewer from "../components/flashCard/CardViewer";
 import SessionComplete from "../components/flashCard/SessionComplete";
 import { useCardSession } from "../hooks/useCardsSession";
+import NoFlashcards from "../components/flashCard/NoFlashcards";
 
 function FlashcardPage() {
   const [searchParams] = useSearchParams();
@@ -34,7 +35,7 @@ function FlashcardPage() {
   const project = projectId ? getProject(projectId) : undefined;
 
   if (!cards.length) {
-    return <div>No flashcards yet.</div>;
+    return <NoFlashcards />;
   }
 
   if (isFinished) {

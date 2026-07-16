@@ -1,11 +1,12 @@
 import { Navigate, Outlet } from "react-router";
 import { useAuthStore } from "../../store/authStore";
+import Loading from "../Loading";
 
 function ProtectedRoutes() {
   const { initialized, user } = useAuthStore();
 
   if (!initialized) {
-    return <p>loading...</p>;
+    return <Loading />;
   }
 
   if (!user) {

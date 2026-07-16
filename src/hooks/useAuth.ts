@@ -6,12 +6,14 @@ import { useNavigate } from "react-router";
 
 import { authService } from "../services/auth";
 import { useAuthStore } from "../store/authStore";
+import { useModeStore } from "../store/modeStore";
 
 export function useAuth() {
   const navigate = useNavigate();
 
   const { user, session, loading, setUser, setSession, setLoading, clear } =
     useAuthStore();
+  const { setMode } = useModeStore();
 
   async function login(email: string, password: string) {
     setLoading(true);
@@ -21,7 +23,7 @@ export function useAuth() {
 
       setUser(user);
       setSession(session);
-
+      setMode("admin");
       navigate("/dashboard");
     } finally {
       setLoading(false);
@@ -54,7 +56,7 @@ export function useAuth() {
       await authService.signOut();
 
       clear();
-
+      setMode("demo");
       navigate("/auth");
     } finally {
       setLoading(false);

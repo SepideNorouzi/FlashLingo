@@ -1,31 +1,30 @@
+// src/repository/projectRepository.ts
 import { useModeStore } from "../store/modeStore";
 import { adminProjectRepo } from "./project/adminProjectRepo";
 import { demoProjectRepo } from "./project/demoProjectRepo";
 
-function repo() {
-  return useModeStore.getState().mode === "demo"
-    ? demoProjectRepo
-    : adminProjectRepo;
-}
-
 export const projectRepository = {
-  getAll() {
-    return repo().getAll();
-  },
-
   useProjects() {
-    return repo().useProjects();
-  },
+    const mode = useModeStore((s) => s.mode);
+    const demoProjects = demoProjectRepo.useProjects(); //  always called
+    const adminProjects = adminProjectRepo.useProjects(); //  always called
 
-  getById(id: string) {
-    return repo().getById(id);
+    return mode === "demo" ? demoProjects : adminProjects;
   },
 
   useCreateProject() {
-    return repo().useCreateProject();
+    const mode = useModeStore((s) => s.mode);
+    const demoMutation = demoProjectRepo.useCreateProject();
+    const adminMutation = adminProjectRepo.useCreateProject();
+
+    return mode === "demo" ? demoMutation : adminMutation;
   },
 
   useDeleteProject() {
-    return repo().useDeleteProject();
+    const mode = useModeStore((s) => s.mode);
+    const demoMutation = demoProjectRepo.useDeleteProject();
+    const adminMutation = adminProjectRepo.useDeleteProject();
+
+    return mode === "demo" ? demoMutation : adminMutation;
   },
 };
