@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  loginSchema,
-  signupSchema,
-  type LoginForm,
-  type SignupForm,
-} from "../schemas/authSchema";
+import { loginSchema, signupSchema } from "../schemas/authSchema";
+import { useAuth } from "../hooks/useAuth";
 
 import styles from "../styles/AuthLayout.module.css";
 
@@ -18,18 +14,29 @@ type AuthForm = {
 
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
+  const { login, signup, loading } = useAuth();
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<AuthForm>({
     resolver: zodResolver(isLogin ? loginSchema : signupSchema),
   });
 
-  async function onSubmit(data: LoginForm | SignupForm) {
-    console.log(data);
+  async function onSubmit(data: AuthForm) {
+    try {
+      if (isLogin) {
+        await login(data.email, data.password);
+      } else {
+        await signup(data.username!, data.email, data.password);
+      }
+
+      reset();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -222,7 +229,7 @@ focus:ring-2
           </div>
 
           <button
-            disabled={isSubmitting}
+            disabled={loading}
             className="
               mt-6
               w-full
@@ -240,11 +247,7 @@ focus:ring-2
               color: "white",
             }}
           >
-            {isSubmitting
-              ? "Loading..."
-              : isLogin
-                ? "Sign In"
-                : "Create Account"}
+            {loading ? "Loading..." : isLogin ? "Sign In" : "Create Account"}
           </button>
         </form>
 

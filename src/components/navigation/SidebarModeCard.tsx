@@ -1,7 +1,10 @@
+import { useAuthStore } from "../../store/authStore";
 import { useModeStore } from "../../store/modeStore";
 
 function SidebarModeCard() {
   const mode = useModeStore((state) => state.mode);
+  const user = useAuthStore((state) => state.user);
+
   return (
     <div
       className="flex flex-col items-center rounded-3xl p-5 text-center"
@@ -26,7 +29,7 @@ function SidebarModeCard() {
       ) : (
         <>
           <p className="font-semibold" style={{ color: "var(--primary)" }}>
-            👤 Admin Mode
+            👤 {user?.user_metadata?.username ?? "Admin Mode"}
           </p>
 
           <span
