@@ -5,6 +5,7 @@ import Flashcard from "../pages/FlashCard";
 import StudyLayout from "../layout/StudyLayout";
 import Intro from "../pages/Intro";
 import AuthPage from "../pages/AuthPage";
+import ProtectedRoutes from "../components/auth/ProtectedRoutes";
 
 function Router() {
   return (
@@ -12,12 +13,14 @@ function Router() {
       <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/auth" element={<AuthPage />} />
-        <Route element={<MainLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Route>
+        <Route element={<ProtectedRoutes />}>
+          <Route element={<MainLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
 
-        <Route element={<StudyLayout />}>
-          <Route path="/flashcards" element={<Flashcard />} />
+          <Route element={<StudyLayout />}>
+            <Route path="/flashcards" element={<Flashcard />} />
+          </Route>
         </Route>
       </Routes>
     </div>

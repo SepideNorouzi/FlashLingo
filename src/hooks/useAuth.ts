@@ -43,7 +43,9 @@ export function useAuth() {
       setUser(user);
       setSession(session);
 
+      setMode("admin");
       navigate("/dashboard");
+      console.log(session);
     } finally {
       setLoading(false);
     }

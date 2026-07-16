@@ -1,10 +1,8 @@
 import { supabase } from "../lib/supabase";
-import { authService } from "./auth";
-
 import type { FlashCard } from "../types/flashcard";
 import type { FlashcardFilters } from "../types/cardFilter";
 import type { FlashCardRow } from "../types/database";
-// convert database rows (snake_case) into my app models (camelCase)
+
 function mapFlashCard(card: FlashCardRow): FlashCard {
   return {
     id: card.id,
@@ -20,13 +18,8 @@ function mapFlashCard(card: FlashCardRow): FlashCard {
 
 export const flashcardService = {
   async getCards(filters: FlashcardFilters = {}) {
-    const user = await authService.getUser();
-
-    if (!user) {
-      throw new Error("User is not authenticated.");
-    }
-
-    let query = supabase.from("flashcards").select("*").eq("user_id", user.id);
+    let query = supabase.from("flashcards").select("*");
+    // ↑ no user_id filter — RLS handles ownership automatically
 
     if (filters.projectId) {
       query = query.eq("project_id", filters.projectId);
@@ -54,17 +47,11 @@ export const flashcardService = {
   },
 
   async getById(id: string) {
-    const user = await authService.getUser();
-
-    if (!user) {
-      throw new Error("User is not authenticated.");
-    }
-
     const { data, error } = await supabase
       .from("flashcards")
       .select("*")
       .eq("id", id)
-      .eq("user_id", user.id)
+      // ↑ no user_id filter — RLS ensures you can only fetch your own
       .single();
 
     if (error || !data) {
@@ -75,12 +62,6 @@ export const flashcardService = {
   },
 
   async create(card: Omit<FlashCard, "id" | "createdAt">) {
-    const user = await authService.getUser();
-
-    if (!user) {
-      throw new Error("User is not authenticated.");
-    }
-
     const { data, error } = await supabase
       .from("flashcards")
       .insert({
@@ -90,7 +71,7 @@ export const flashcardService = {
         project_id: card.projectId,
         learned: card.learned,
         mistake: card.mistake,
-        user_id: user.id,
+        // ↑ no user_id field — flashcards table doesn't have one
       })
       .select()
       .single();
@@ -103,33 +84,21 @@ export const flashcardService = {
   },
 
   async update(id: string, changes: Partial<FlashCard>) {
-    const user = await authService.getUser();
-
-    if (!user) {
-      throw new Error("User is not authenticated.");
-    }
-
     const updateData: Record<string, unknown> = {};
 
     if (changes.word !== undefined) updateData.word = changes.word;
-
     if (changes.pronunciation !== undefined)
       updateData.pronunciation = changes.pronunciation;
-
     if (changes.meaning !== undefined) updateData.meaning = changes.meaning;
-
     if (changes.projectId !== undefined)
       updateData.project_id = changes.projectId;
-
     if (changes.learned !== undefined) updateData.learned = changes.learned;
-
     if (changes.mistake !== undefined) updateData.mistake = changes.mistake;
 
     const { data, error } = await supabase
       .from("flashcards")
       .update(updateData)
       .eq("id", id)
-      .eq("user_id", user.id)
       .select()
       .single();
 
@@ -141,17 +110,8 @@ export const flashcardService = {
   },
 
   async delete(id: string) {
-    const user = await authService.getUser();
-
-    if (!user) {
-      throw new Error("User is not authenticated.");
-    }
-
-    const { error } = await supabase
-      .from("flashcards")
-      .delete()
-      .eq("id", id)
-      .eq("user_id", user.id);
+    const { error } = await supabase.from("flashcards").delete().eq("id", id);
+    // ↑ no user_id filter — RLS handles it
 
     if (error) {
       throw error;

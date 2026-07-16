@@ -14,6 +14,7 @@ export const adminProjectRepo = {
     const { data = [] } = useQuery({
       queryKey: PROJECTS_KEY,
       queryFn: projectService.getAll,
+      staleTime: 0, // ← always refetch on mount
     });
 
     return data;

@@ -18,36 +18,42 @@ export function useCardSession(cards: FlashCard[]) {
     }
   }, [isFinished]);
 
-  const onCorrect = useCallback(() => {
+  const onCorrect = useCallback(async () => {
     if (!currentCard) return;
 
-    updateCard.mutate({
-      id: currentCard.id,
-      changes: {
-        learned: true,
-        mistake: false,
-      },
-    });
+    try {
+      await updateCard.mutateAsync({
+        id: currentCard.id,
+        changes: {
+          learned: true,
+          mistake: false,
+        },
+      });
 
-    setCorrectCount((c) => c + 1);
-
-    advance();
+      setCorrectCount((c) => c + 1);
+      advance();
+    } catch (error) {
+      console.error("Failed to update card:", error);
+    }
   }, [currentCard, advance, updateCard]);
 
-  const onWrong = useCallback(() => {
+  const onWrong = useCallback(async () => {
     if (!currentCard) return;
 
-    updateCard.mutate({
-      id: currentCard.id,
-      changes: {
-        learned: false,
-        mistake: true,
-      },
-    });
+    try {
+      await updateCard.mutateAsync({
+        id: currentCard.id,
+        changes: {
+          learned: false,
+          mistake: true,
+        },
+      });
 
-    setWrongCount((c) => c + 1);
-
-    advance();
+      setWrongCount((c) => c + 1);
+      advance();
+    } catch (error) {
+      console.error("Failed to update card:", error);
+    }
   }, [currentCard, advance, updateCard]);
 
   return {

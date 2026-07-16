@@ -16,6 +16,7 @@ export const adminCardRepo = {
     const { data = [] } = useQuery({
       queryKey: [...FLASHCARDS_KEY, filters],
       queryFn: () => flashcardService.getCards(filters),
+      staleTime: 0, // ← always considered stale, refetches on mount
     });
 
     return data;

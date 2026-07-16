@@ -1,9 +1,7 @@
 import { supabase } from "../lib/supabase";
-import { authService } from "./auth";
-
 import type { Project } from "../types/project";
 import type { ProjectRow } from "../types/database";
-// convert database rows (snake_case) into my app models (camelCase)
+
 function mapProject(project: ProjectRow): Project {
   return {
     id: project.id,
@@ -14,84 +12,53 @@ function mapProject(project: ProjectRow): Project {
 
 export const projectService = {
   async getAll() {
-    const user = await authService.getUser();
-
-    if (!user) {
-      throw new Error("User is not authenticated.");
-    }
-
     const { data, error } = await supabase
       .from("projects")
       .select("*")
-      .eq("user_id", user.id)
       .order("created_at", { ascending: false });
+    // ↑ no user_id filter — RLS ensures you only get your own rows
 
-    if (error || !data) {
-      throw error ?? new Error("Failed to fetch projects.");
-    }
+    if (error || !data) throw error ?? new Error("Failed to fetch projects.");
 
     return data.map(mapProject);
   },
 
   async getById(id: string) {
-    const user = await authService.getUser();
-
-    if (!user) {
-      throw new Error("User is not authenticated.");
-    }
-
     const { data, error } = await supabase
       .from("projects")
       .select("*")
       .eq("id", id)
-      .eq("user_id", user.id)
+      // ↑ no user_id filter — RLS blocks access to others' projects
       .single();
 
-    if (error || !data) {
-      throw error ?? new Error("Project not found.");
-    }
+    if (error || !data) throw error ?? new Error("Project not found.");
 
     return mapProject(data);
   },
 
   async create(name: string) {
-    const user = await authService.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    // ↑ still need user.id here — because we INSERT it as the owner
 
-    if (!user) {
-      throw new Error("User is not authenticated.");
-    }
+    if (!user) throw new Error("User is not authenticated.");
 
     const { data, error } = await supabase
       .from("projects")
-      .insert({
-        name,
-        user_id: user.id,
-      })
+      .insert({ name, user_id: user.id })
       .select()
       .single();
 
-    if (error || !data) {
-      throw error ?? new Error("Failed to create project.");
-    }
+    if (error || !data) throw error ?? new Error("Failed to create project.");
 
     return mapProject(data);
   },
 
   async delete(id: string) {
-    const user = await authService.getUser();
+    const { error } = await supabase.from("projects").delete().eq("id", id);
+    // ↑ no user_id filter — RLS ensures you can only delete your own
 
-    if (!user) {
-      throw new Error("User is not authenticated.");
-    }
-
-    const { error } = await supabase
-      .from("projects")
-      .delete()
-      .eq("id", id)
-      .eq("user_id", user.id);
-
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
   },
 };

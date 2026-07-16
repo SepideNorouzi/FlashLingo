@@ -3,6 +3,7 @@ import type { FlashcardFilters } from "../types/cardFilter";
 
 export function useFlashcards(filters: FlashcardFilters = {}) {
   const cards = cardRepository.useCards(filters);
+  console.log(cards);
 
   const totalCards = cards.length;
 
