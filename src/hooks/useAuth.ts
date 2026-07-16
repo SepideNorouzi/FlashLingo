@@ -17,14 +17,14 @@ export function useAuth() {
 
   async function login(email: string, password: string) {
     setLoading(true);
-
     try {
       const { session, user } = await authService.signIn(email, password);
-
       setUser(user);
       setSession(session);
       setMode("admin");
       navigate("/dashboard");
+    } catch (error) {
+      throw error;
     } finally {
       setLoading(false);
     }
@@ -39,13 +39,12 @@ export function useAuth() {
         email,
         password,
       );
-
       setUser(user);
       setSession(session);
-
       setMode("admin");
       navigate("/dashboard");
-      console.log(session);
+    } catch (error) {
+      throw error;
     } finally {
       setLoading(false);
     }

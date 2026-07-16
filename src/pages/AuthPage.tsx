@@ -5,6 +5,7 @@ import { loginSchema, signupSchema } from "../schemas/authSchema";
 import { useAuth } from "../hooks/useAuth";
 
 import styles from "../styles/AuthLayout.module.css";
+import { toast } from "sonner";
 
 type AuthForm = {
   username?: string;
@@ -14,6 +15,7 @@ type AuthForm = {
 
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
+  const [authError, setAuthError] = useState("");
   const { login, signup, loading } = useAuth();
 
   const {
@@ -26,16 +28,24 @@ function Auth() {
   });
 
   async function onSubmit(data: AuthForm) {
+    setAuthError("");
     try {
       if (isLogin) {
         await login(data.email, data.password);
       } else {
         await signup(data.username!, data.email, data.password);
       }
-
       reset();
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      if (isLogin) {
+        setAuthError("Invalid email or password.");
+      } else {
+        if (error.message?.includes("User already registered")) {
+          toast.error("An account with this email already exists.");
+        } else {
+          toast.error("An account with this username already exists.");
+        }
+      }
     }
   }
 
@@ -226,6 +236,9 @@ focus:ring-2
                 {errors.password.message}
               </p>
             )}
+            {authError && (
+              <p className="mt-2 text-sm text-red-500">{authError}</p>
+            )}
           </div>
 
           <button
@@ -266,6 +279,7 @@ focus:ring-2
             onClick={() => {
               setIsLogin((prev) => !prev);
               reset();
+              setAuthError("");
             }}
             className="ml-2 font-semibold transition"
             style={{
