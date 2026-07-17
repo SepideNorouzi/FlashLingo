@@ -1,28 +1,28 @@
-/* ===========================
+/* ==========================================
    Scene
-=========================== */
+========================================== */
 
 .scene {
+  position: relative;
+
   width: 100%;
+
   perspective: 1200px;
   -webkit-perspective: 1200px;
+
   cursor: pointer;
+
+  user-select: none;
+  touch-action: pan-y;
 }
 
-/* ===========================
+/* ==========================================
    Card
-=========================== */
+========================================== */
 
 .card {
   position: relative;
-  width: 100%;
 
-  /* Match CardShell dimensions */
-  height: 350px;
-}
-
-.card {
-  position: relative;
   width: 100%;
   height: 350px;
 
@@ -38,14 +38,14 @@
   }
 }
 
-.card.flipped {
+.flipped {
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
 }
 
-/* ===========================
+/* ==========================================
    Faces
-=========================== */
+========================================== */
 
 .face {
   position: absolute;
@@ -53,13 +53,13 @@
 
   display: flex;
 
+  overflow: visible;
+
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-
-  overflow: visible;
 }
 
 .back {
@@ -67,79 +67,56 @@
   -webkit-transform: rotateY(180deg);
 }
 
-/* ===========================
-   Buttons
-=========================== */
+/* ==========================================
+   Swipe Overlays
+========================================== */
 
-.buttons {
-  opacity: 0;
-  transform: translateY(10px);
-  pointer-events: none;
+.correctOverlay,
+.wrongOverlay {
+  position: absolute;
 
-  transition:
-    opacity 0.35s ease 0.25s,
-    transform 0.35s ease 0.25s;
-}
+  top: 50%;
+  transform: translateY(-50%);
 
-.buttons.visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
+  z-index: 100;
 
-/* ===========================
-   Buttons
-=========================== */
-
-.wrongBtn,
-.rightBtn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  padding: 0.75rem 1.5rem;
+  width: 90px;
+  height: 90px;
 
   border-radius: 9999px;
-  border: 1px solid transparent;
 
-  font-size: 0.875rem;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  cursor: pointer;
+  font-size: 42px;
+  font-weight: bold;
 
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease;
+  pointer-events: none;
 
-  -webkit-tap-highlight-color: transparent;
+  backdrop-filter: blur(10px);
 }
 
-.wrongBtn {
-  background: rgba(255, 100, 100, 0.08);
-  border-color: rgba(255, 100, 100, 0.25);
-  color: #e05555;
+/* Right swipe */
+
+.correctOverlay {
+  right: -50px;
+
+  background: rgba(76, 175, 80, 0.18);
+
+  border: 2px solid rgba(76, 175, 80, 0.35);
+
+  box-shadow: 0 10px 25px rgba(76, 175, 80, 0.18);
 }
 
-.wrongBtn:hover {
-  background: rgba(255, 100, 100, 0.15);
-  box-shadow: 0 4px 12px rgba(255, 100, 100, 0.15);
-  transform: scale(1.05);
-}
+/* Left swipe */
 
-.rightBtn {
-  background: rgba(80, 200, 120, 0.08);
-  border-color: rgba(80, 200, 120, 0.25);
-  color: #3a9e60;
-}
+.wrongOverlay {
+  left: -50px;
 
-.rightBtn:hover {
-  background: rgba(80, 200, 120, 0.15);
-  box-shadow: 0 4px 12px rgba(80, 200, 120, 0.15);
-  transform: scale(1.05);
-}
+  background: rgba(244, 67, 54, 0.18);
 
-.wrongBtn:active,
-.rightBtn:active {
-  transform: scale(0.95);
+  border: 2px solid rgba(244, 67, 54, 0.35);
+
+  box-shadow: 0 10px 25px rgba(244, 67, 54, 0.18);
 }

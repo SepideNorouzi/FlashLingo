@@ -6,14 +6,11 @@ interface CardBackProps {
 }
 
 function CardBack({ card }: CardBackProps) {
-
   return (
     <CardShell background="linear-gradient(180deg,var(--primary-light),var(--secondary-light))">
-      {/* decorative emojis unique to back */}
       <span className="absolute right-8 top-[45%] text-2xl opacity-40">📖</span>
       <span className="absolute left-8 top-[42%] text-xl opacity-35">🌸</span>
 
-      {/* Top — "Meaning" pill */}
       <div className="relative z-10 flex w-full justify-center">
         <div
           className="rounded-full px-5 py-2 text-sm font-semibold"
@@ -26,7 +23,6 @@ function CardBack({ card }: CardBackProps) {
         </div>
       </div>
 
-      {/* Middle — word + pronunciation + translation */}
       <div className="relative z-10 text-center">
         <h1
           className="text-5xl font-bold tracking-tight md:text-6xl"
@@ -60,8 +56,17 @@ function CardBack({ card }: CardBackProps) {
             {card.meaning}
           </h2>
         </div>
+        <div
+          className="mt-8 text-center text-sm font-medium"
+          style={{
+            color: "var(--text-light)",
+            opacity: 0.75,
+          }}
+        >
+          ← Swipe left if you were wrong &nbsp;&nbsp;•&nbsp;&nbsp; Swipe right
+          if you were right →
+        </div>
       </div>
-
     </CardShell>
   );
 }
