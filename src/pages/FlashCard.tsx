@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSearchParams } from "react-router";
 
 import { useFlashcards } from "../hooks/useCards";
@@ -15,10 +16,18 @@ function FlashcardPage() {
   const projectId = searchParams.get("projectId") ?? undefined;
   const mode = searchParams.get("mode") ?? undefined;
 
-  const { cards } = useFlashcards({
+  const { cards: liveCards } = useFlashcards({
     projectId,
     mistakeOnly: mode === "mistakes",
   });
+
+  // Freeze the list for this review session.
+  // The lazy initializer `() => liveCards` runs ONCE, on mount — not on
+  // every re-render. So when a store update (marking a card right/wrong)
+  // would otherwise reshuffle or shrink the live `mistakeOnly` filter,
+  // this `cards` array stays exactly as it was when the session started.
+  // currentIndex can now safely walk it start to finish.
+  const [cards] = useState(() => liveCards);
 
   const {
     currentCard,

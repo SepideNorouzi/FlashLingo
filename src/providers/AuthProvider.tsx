@@ -38,8 +38,10 @@ export default function AuthProvider({
       if (session) {
         setUser(session.user);
         setSession(session);
+        setMode("admin");
       } else {
         clear();
+        setMode("demo");
       }
     });
     // Cleanup the listener when the component unmounts

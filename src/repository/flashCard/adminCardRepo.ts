@@ -4,6 +4,7 @@ import { flashcardService } from "../../services/FlashCard";
 
 import type { FlashCard } from "../../types/flashcard";
 import type { FlashcardFilters } from "../../types/cardFilter";
+import { useModeStore } from "../../store/modeStore";
 
 const FLASHCARDS_KEY = ["flashcards"];
 
@@ -13,12 +14,13 @@ export const adminCardRepo = {
   },
 
   useCards(filters: FlashcardFilters = {}) {
+    const mode = useModeStore((s) => s.mode);
     const { data = [] } = useQuery({
       queryKey: [...FLASHCARDS_KEY, filters],
       queryFn: () => flashcardService.getCards(filters),
-      staleTime: 0, // ← always considered stale, refetches on mount
+      enabled: mode === "admin", // don't fetch while in demo mode
+      staleTime: 0,
     });
-
     return data;
   },
 
