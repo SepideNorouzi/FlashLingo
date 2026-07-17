@@ -6,22 +6,35 @@ import StudyLayout from "../layout/StudyLayout";
 import Intro from "../pages/Intro";
 import AuthPage from "../pages/AuthPage";
 import ProtectedRoutes from "../components/auth/ProtectedRoutes";
+import { useModeStore } from "../store/modeStore";
 
 function Router() {
+  const mode = useModeStore((state) => state.mode);
   return (
     <div>
       <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/auth" element={<AuthPage />} />
-        <Route element={<ProtectedRoutes />}>
-          <Route element={<MainLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Route>
+        {mode == "admin" ? (
+          <Route element={<ProtectedRoutes />}>
+            <Route element={<MainLayout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
 
-          <Route element={<StudyLayout />}>
-            <Route path="/flashcards" element={<Flashcard />} />
+            <Route element={<StudyLayout />}>
+              <Route path="/flashcards" element={<Flashcard />} />
+            </Route>
           </Route>
-        </Route>
+        ) : (
+          <Route>
+            <Route element={<MainLayout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+            <Route element={<StudyLayout />}>
+              <Route path="/flashcards" element={<Flashcard />} />
+            </Route>{" "}
+          </Route>
+        )}
       </Routes>
     </div>
   );
