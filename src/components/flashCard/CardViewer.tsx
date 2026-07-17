@@ -190,7 +190,7 @@ function CardViewer({
             opacity: rightOpacity,
           }}
         >
-          ✅
+          
         </motion.div>
 
         <motion.div
@@ -199,7 +199,7 @@ function CardViewer({
             opacity: leftOpacity,
           }}
         >
-          ❌
+          
         </motion.div>
 
         <div className={`${styles.card} ${isFlipped ? styles.flipped : ""}`}>
