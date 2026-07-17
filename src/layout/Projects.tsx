@@ -63,7 +63,9 @@ function Projects() {
             flashcardCount={
               cards.filter((card) => card.projectId === project.id).length
             }
-            onClick={() => navigate(`/flashcards?projectId=${project.id}`)}
+            onClick={() =>
+              navigate(`/flashcards?projectId=${project.id}`, { replace: true })
+            }
             onDelete={() => deleteProject.mutate(project.id)}
           />
         ))}
