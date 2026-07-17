@@ -1,45 +1,28 @@
 import { useMutation } from "@tanstack/react-query";
-
 import { useCardStore } from "../../store/demoCardStore";
-
 import type { FlashCard } from "../../types/flashcard";
 import type { FlashcardFilters } from "../../types/cardFilter";
 
 export const demoCardRepo = {
   getCards(filters: FlashcardFilters = {}) {
     let cards = useCardStore.getState().cards;
-
-    if (filters.projectId) {
-      cards = cards.filter((card) => card.projectId === filters.projectId);
-    }
-
-    if (filters.mistakeOnly) {
-      cards = cards.filter((card) => card.mistake);
-    }
-
-    if (filters.random) {
-      cards = [...cards].sort(() => Math.random() - 0.5);
-    }
-
+    if (filters.projectId)
+      cards = cards.filter((c) => c.projectId === filters.projectId);
+    if (filters.mistakeOnly) cards = cards.filter((c) => c.mistake);
+    if (filters.random) cards = [...cards].sort(() => Math.random() - 0.5);
     return cards;
   },
 
   useCards(filters: FlashcardFilters = {}) {
     let cards = useCardStore((state) => state.cards);
+    if (filters.projectId)
+      cards = cards.filter((c) => c.projectId === filters.projectId);
+    if (filters.mistakeOnly) cards = cards.filter((c) => c.mistake);
+    if (filters.random) cards = [...cards].sort(() => Math.random() - 0.5);
 
-    if (filters.projectId) {
-      cards = cards.filter((card) => card.projectId === filters.projectId);
-    }
-
-    if (filters.mistakeOnly) {
-      cards = cards.filter((card) => card.mistake);
-    }
-
-    if (filters.random) {
-      cards = [...cards].sort(() => Math.random() - 0.5);
-    }
-
-    return cards;
+    // Same shape as adminCardRepo.useCards so the caller doesn't need to
+    // know which mode it's in. Demo is Zustand — never actually "loading".
+    return { data: cards, isLoading: false };
   },
 
   getById(id: string) {
@@ -54,9 +37,7 @@ export const demoCardRepo = {
           id: crypto.randomUUID(),
           createdAt: new Date().toISOString(),
         };
-
         useCardStore.getState().addCard(newCard);
-
         return newCard;
       },
     });

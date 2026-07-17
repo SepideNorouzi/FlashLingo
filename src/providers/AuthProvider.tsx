@@ -12,7 +12,6 @@ export default function AuthProvider({
   const { setMode } = useModeStore();
 
   useEffect(() => {
-    // Check if Supabase already has a session in localStorage
     async function initialize() {
       const {
         data: { session },
@@ -21,30 +20,30 @@ export default function AuthProvider({
       if (session) {
         setUser(session.user);
         setSession(session);
-        setMode("admin"); //restore the correct mode
+        setMode("admin");
       } else {
         clear();
         setMode("demo");
       }
 
-      setInitialized(true); //now the app knows auth check is done
+      setInitialized(true);
     }
 
     initialize();
-    // Subscribe to future auth changes (login, logout, token refresh)
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
         setUser(session.user);
         setSession(session);
-        setMode("admin");
+        setMode("admin"); // keep mode in sync even outside login()/logout()
       } else {
         clear();
         setMode("demo");
       }
     });
-    // Cleanup the listener when the component unmounts
+
     return () => subscription.unsubscribe();
   }, []);
 

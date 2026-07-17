@@ -1,10 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { flashcardService } from "../../services/FlashCard";
-
 import type { FlashCard } from "../../types/flashcard";
 import type { FlashcardFilters } from "../../types/cardFilter";
-import { useModeStore } from "../../store/modeStore";
 
 const FLASHCARDS_KEY = ["flashcards"];
 
@@ -14,14 +11,13 @@ export const adminCardRepo = {
   },
 
   useCards(filters: FlashcardFilters = {}) {
-    const mode = useModeStore((s) => s.mode);
-    const { data = [] } = useQuery({
+    const { data = [], isLoading } = useQuery({
       queryKey: [...FLASHCARDS_KEY, filters],
       queryFn: () => flashcardService.getCards(filters),
-      enabled: mode === "admin", // don't fetch while in demo mode
       staleTime: 0,
     });
-    return data;
+
+    return { data, isLoading };
   },
 
   async getById(id: string) {
@@ -30,21 +26,15 @@ export const adminCardRepo = {
 
   useCreateCard() {
     const queryClient = useQueryClient();
-
     return useMutation({
       mutationFn: flashcardService.create,
-
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: FLASHCARDS_KEY,
-        });
-      },
+      onSuccess: () =>
+        queryClient.invalidateQueries({ queryKey: FLASHCARDS_KEY }),
     });
   },
 
   useUpdateCard() {
     const queryClient = useQueryClient();
-
     return useMutation({
       mutationFn: ({
         id,
@@ -53,26 +43,17 @@ export const adminCardRepo = {
         id: string;
         changes: Partial<FlashCard>;
       }) => flashcardService.update(id, changes),
-
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: FLASHCARDS_KEY,
-        });
-      },
+      onSuccess: () =>
+        queryClient.invalidateQueries({ queryKey: FLASHCARDS_KEY }),
     });
   },
 
   useDeleteCard() {
     const queryClient = useQueryClient();
-
     return useMutation({
       mutationFn: flashcardService.delete,
-
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: FLASHCARDS_KEY,
-        });
-      },
+      onSuccess: () =>
+        queryClient.invalidateQueries({ queryKey: FLASHCARDS_KEY }),
     });
   },
 };
