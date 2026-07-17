@@ -27,7 +27,7 @@ function SessionComplete({ correct, wrong }: SessionCompleteProps) {
           cursor-pointer
           ${styles.cardWrapper}
         `}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/dashboard", { replace: true })}
       >
         <CardShell>
           {/* Floating decorations */}
@@ -142,7 +142,6 @@ function SessionComplete({ correct, wrong }: SessionCompleteProps) {
               </p>
             </div>
           </div>
-
 
           {/* Footer */}
           <div className="relative z-10 w-full flex justify-center">
