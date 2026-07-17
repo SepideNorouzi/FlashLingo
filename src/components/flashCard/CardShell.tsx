@@ -9,22 +9,22 @@ function CardShell({ children, background }: CardShellProps) {
   return (
     <div
       className="
-        relative
-        mx-auto
-        flex
-        h-[350px]
-        w-full
-        max-w-[420px]
-        flex-col
-        items-center
-        justify-between
-        overflow-visible
-        rounded-[36px]
-        border
-        p-8
-        md:h-[420px]
-        md:max-w-[560px]
-      "
+    relative
+    mx-auto
+    flex
+    h-[350px]
+    w-full
+    max-w-[420px]
+    flex-col
+    items-center
+    justify-between
+    overflow-hidden
+    rounded-[36px]
+    border
+    p-8
+    md:h-[420px]
+    md:max-w-[560px]
+  "
       style={{
         background: background ?? "white",
         borderColor: "var(--border)",
