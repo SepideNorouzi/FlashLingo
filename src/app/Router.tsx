@@ -7,12 +7,14 @@ import Intro from "../pages/Intro";
 import AuthPage from "../pages/AuthPage";
 import ProtectedRoutes from "../components/auth/ProtectedRoutes";
 import { useModeStore } from "../store/modeStore";
+import Loading from "../components/Loading";
 
 function Router() {
   const mode = useModeStore((state) => state.mode);
   return (
     <div>
       <Routes>
+        <Route path="/load" element={<Loading />} />
         <Route path="/" element={<Intro />} />
         <Route path="/auth" element={<AuthPage />} />
         {mode == "admin" ? (

@@ -6,6 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 
 import styles from "../styles/AuthLayout.module.css";
 import { toast } from "sonner";
+import Loading from "../components/Loading";
 
 type AuthForm = {
   username?: string;
@@ -260,7 +261,7 @@ focus:ring-2
               color: "white",
             }}
           >
-            {loading ? "Loading..." : isLogin ? "Sign In" : "Create Account"}
+            {loading ? <Loading /> : isLogin ? "Sign In" : "Create Account"}
           </button>
         </form>
 
