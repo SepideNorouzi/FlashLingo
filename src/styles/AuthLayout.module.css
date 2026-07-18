@@ -216,24 +216,6 @@
   }
 }
 
-@keyframes subtitleEntrance {
-  0%,
-  15% {
-    opacity: 0;
-  }
-
-  28% {
-    opacity: 0.85;
-  }
-
-  82% {
-    opacity: 0.85;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
 
 @keyframes splashExit {
   0% {
