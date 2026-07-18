@@ -159,3 +159,106 @@
     transform: translate(5px, -12px) rotate(10deg);
   }
 }
+
+.splash {
+  animation: splashExit 2.4s forwards;
+}
+
+.title {
+  animation: titleEntrance 2.4s forwards;
+}
+
+.subtitle {
+  animation: subtitleEntrance 2.4s forwards;
+}
+
+@keyframes logoEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.65) translateY(18px);
+    filter: blur(12px);
+  }
+
+  18% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: blur(0);
+  }
+
+  30% {
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(-55px);
+    filter: blur(0);
+  }
+}
+
+@keyframes titleEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(25px);
+    filter: blur(6px);
+  }
+
+  20% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(25);
+    filter: blur(0);
+  }
+}
+
+@keyframes subtitleEntrance {
+  0%,
+  15% {
+    opacity: 0;
+  }
+
+  28% {
+    opacity: 0.85;
+  }
+
+  82% {
+    opacity: 0.85;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes splashExit {
+  0% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes logoFloat {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

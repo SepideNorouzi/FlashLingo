@@ -2,11 +2,27 @@ import { useNavigate } from "react-router";
 import { useModeStore } from "../store/modeStore";
 
 import styles from "../styles/AuthLayout.module.css";
+import { useEffect, useState } from "react";
+import SplashScreen from "./SplashScreen";
 
 function Intro() {
   const navigate = useNavigate();
 
   const setMode = useModeStore((state) => state.setMode);
+
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (showSplash) {
+    return <SplashScreen />;
+  }
 
   function handleDemo() {
     setMode("demo");
@@ -187,7 +203,7 @@ mx-auto
               color: "var(--text-light)",
             }}
           >
-            FlashLingo v1.0
+            FlashLingo v0.1
           </p>
         </div>
       </div>

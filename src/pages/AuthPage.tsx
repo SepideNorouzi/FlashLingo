@@ -1,12 +1,12 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, signupSchema } from "../schemas/authSchema";
 import { useAuth } from "../hooks/useAuth";
+import Loading from "../components/Loading";
 
 import styles from "../styles/AuthLayout.module.css";
-import { toast } from "sonner";
-import Loading from "../components/Loading";
 
 type AuthForm = {
   username?: string;
@@ -303,7 +303,7 @@ focus:ring-2
               color: "var(--text-light)",
             }}
           >
-            FlashLingo v1.0
+            FlashLingo v0.1
           </p>
         </div>
       </div>
