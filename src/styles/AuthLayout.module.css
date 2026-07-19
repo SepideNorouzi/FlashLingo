@@ -196,7 +196,7 @@
   }
 }
 
-@keyframes titleEntrance {
+/* @keyframes titleEntrance {
   0% {
     opacity: 0;
     transform: translateY(25px);
@@ -214,7 +214,7 @@
     transform: translateY(25);
     filter: blur(0);
   }
-}
+} */
 
 @keyframes splashExit {
   from {
