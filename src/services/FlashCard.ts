@@ -1,4 +1,4 @@
-import { supabase } from "../lib/supabase";
+import { requireSupabase } from "../lib/supabase";
 import type { FlashCard } from "../types/flashcard";
 import type { FlashcardFilters } from "../types/cardFilter";
 import type { FlashCardRow } from "../types/database";
@@ -18,8 +18,8 @@ function mapFlashCard(card: FlashCardRow): FlashCard {
 
 export const flashcardService = {
   async getCards(filters: FlashcardFilters = {}) {
-    let query = supabase.from("flashcards").select("*");
-    // ↑ no user_id filter — RLS handles ownership automatically
+    const db = requireSupabase();
+    let query = db.from("flashcards").select("*");
 
     if (filters.projectId) {
       query = query.eq("project_id", filters.projectId);
@@ -47,7 +47,9 @@ export const flashcardService = {
   },
 
   async getById(id: string) {
-    const { data, error } = await supabase
+    const db = requireSupabase();
+
+    const { data, error } = await db
       .from("flashcards")
       .select("*")
       .eq("id", id)
@@ -62,7 +64,9 @@ export const flashcardService = {
   },
 
   async create(card: Omit<FlashCard, "id" | "createdAt">) {
-    const { data, error } = await supabase
+    const db = requireSupabase();
+
+    const { data, error } = await db
       .from("flashcards")
       .insert({
         word: card.word,
@@ -84,6 +88,7 @@ export const flashcardService = {
   },
 
   async update(id: string, changes: Partial<FlashCard>) {
+    const db = requireSupabase();
     const updateData: Record<string, unknown> = {};
 
     if (changes.word !== undefined) updateData.word = changes.word;
@@ -95,7 +100,7 @@ export const flashcardService = {
     if (changes.learned !== undefined) updateData.learned = changes.learned;
     if (changes.mistake !== undefined) updateData.mistake = changes.mistake;
 
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from("flashcards")
       .update(updateData)
       .eq("id", id)
@@ -110,7 +115,9 @@ export const flashcardService = {
   },
 
   async delete(id: string) {
-    const { error } = await supabase.from("flashcards").delete().eq("id", id);
+    const db = requireSupabase();
+
+    const { error } = await db.from("flashcards").delete().eq("id", id);
     // ↑ no user_id filter — RLS handles it
 
     if (error) {

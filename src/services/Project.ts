@@ -1,4 +1,4 @@
-import { supabase } from "../lib/supabase";
+import { requireSupabase } from "../lib/supabase";
 import type { Project } from "../types/project";
 import type { ProjectRow } from "../types/database";
 
@@ -12,7 +12,9 @@ function mapProject(project: ProjectRow): Project {
 
 export const projectService = {
   async getAll() {
-    const { data, error } = await supabase
+    const db = requireSupabase();
+
+    const { data, error } = await db
       .from("projects")
       .select("*")
       .order("created_at", { ascending: false });
@@ -24,7 +26,9 @@ export const projectService = {
   },
 
   async getById(id: string) {
-    const { data, error } = await supabase
+    const db = requireSupabase();
+
+    const { data, error } = await db
       .from("projects")
       .select("*")
       .eq("id", id)
@@ -37,14 +41,16 @@ export const projectService = {
   },
 
   async create(name: string) {
+    const db = requireSupabase();
+
     const {
       data: { user },
-    } = await supabase.auth.getUser();
+    } = await db.auth.getUser();
     // ↑ still need user.id here — because we INSERT it as the owner
 
     if (!user) throw new Error("User is not authenticated.");
 
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from("projects")
       .insert({ name, user_id: user.id })
       .select()
@@ -56,7 +62,9 @@ export const projectService = {
   },
 
   async delete(id: string) {
-    const { error } = await supabase.from("projects").delete().eq("id", id);
+    const db = requireSupabase();
+
+    const { error } = await db.from("projects").delete().eq("id", id);
     // ↑ no user_id filter — RLS ensures you can only delete your own
 
     if (error) throw error;

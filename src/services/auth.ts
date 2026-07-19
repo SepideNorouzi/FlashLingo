@@ -1,5 +1,5 @@
 import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
-import { supabase } from "../lib/supabase";
+import { requireSupabase, supabase } from "../lib/supabase";
 
 export const authService = {
   async signUp(username: string, email: string, password: string) {
@@ -22,10 +22,9 @@ export const authService = {
   },
 
   async signIn(email: string, password: string) {
-    if (!supabase) {
-      throw new Error("Authentication isn't available in this deployment.");
-    }
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const db = requireSupabase();
+
+    const { data, error } = await db.auth.signInWithPassword({
       email,
       password,
     });
@@ -36,19 +35,17 @@ export const authService = {
   },
 
   async signOut() {
-    if (!supabase) {
-      throw new Error("Authentication isn't available in this deployment.");
-    }
-    const { error } = await supabase.auth.signOut();
+    const db = requireSupabase();
+
+    const { error } = await db.auth.signOut();
 
     if (error) throw error;
   },
 
   async getSession() {
-    if (!supabase) {
-      throw new Error("Authentication isn't available in this deployment.");
-    }
-    const { data, error } = await supabase.auth.getSession();
+    const db = requireSupabase();
+
+    const { data, error } = await db.auth.getSession();
 
     if (error) throw error;
 
@@ -56,10 +53,9 @@ export const authService = {
   },
 
   async getUser() {
-    if (!supabase) {
-      throw new Error("Authentication isn't available in this deployment.");
-    }
-    const { data, error } = await supabase.auth.getUser();
+    const db = requireSupabase();
+
+    const { data, error } = await db.auth.getUser();
 
     if (error) throw error;
 
