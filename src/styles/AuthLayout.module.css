@@ -160,8 +160,8 @@
   }
 }
 
-.splash {
-  animation: splashExit 2.4s forwards;
+.fadeOut {
+  animation: splashExit 0.4s forwards;
 }
 
 .title {
@@ -216,17 +216,12 @@
   }
 }
 
-
 @keyframes splashExit {
-  0% {
+  from {
     opacity: 1;
   }
 
-  90% {
-    opacity: 1;
-  }
-
-  100% {
+  to {
     opacity: 0;
   }
 }
