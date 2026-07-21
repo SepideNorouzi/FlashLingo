@@ -160,8 +160,8 @@
   }
 }
 
-.splash {
-  animation: splashExit 2.4s forwards;
+.fadeOut {
+  animation: splashExit 0.4s forwards;
 }
 
 .title {
@@ -196,7 +196,7 @@
   }
 }
 
-@keyframes titleEntrance {
+/* @keyframes titleEntrance {
   0% {
     opacity: 0;
     transform: translateY(25px);
@@ -214,19 +214,14 @@
     transform: translateY(25);
     filter: blur(0);
   }
-}
-
+} */
 
 @keyframes splashExit {
-  0% {
+  from {
     opacity: 1;
   }
 
-  90% {
-    opacity: 1;
-  }
-
-  100% {
+  to {
     opacity: 0;
   }
 }

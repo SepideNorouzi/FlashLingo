@@ -1,7 +1,11 @@
-import { supabase } from "../lib/supabase";
+import type { AuthChangeEvent, Session } from "@supabase/supabase-js";
+import { requireSupabase, supabase } from "../lib/supabase";
 
 export const authService = {
   async signUp(username: string, email: string, password: string) {
+    if (!supabase) {
+      throw new Error("Authentication isn't available in this deployment.");
+    }
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -18,7 +22,9 @@ export const authService = {
   },
 
   async signIn(email: string, password: string) {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const db = requireSupabase();
+
+    const { data, error } = await db.auth.signInWithPassword({
       email,
       password,
     });
@@ -29,13 +35,17 @@ export const authService = {
   },
 
   async signOut() {
-    const { error } = await supabase.auth.signOut();
+    const db = requireSupabase();
+
+    const { error } = await db.auth.signOut();
 
     if (error) throw error;
   },
 
   async getSession() {
-    const { data, error } = await supabase.auth.getSession();
+    const db = requireSupabase();
+
+    const { data, error } = await db.auth.getSession();
 
     if (error) throw error;
 
@@ -43,7 +53,9 @@ export const authService = {
   },
 
   async getUser() {
-    const { data, error } = await supabase.auth.getUser();
+    const db = requireSupabase();
+
+    const { data, error } = await db.auth.getUser();
 
     if (error) throw error;
 
@@ -51,8 +63,12 @@ export const authService = {
   },
 
   onAuthStateChange(
-    callback: Parameters<typeof supabase.auth.onAuthStateChange>[0],
+    callback: (event: AuthChangeEvent, session: Session | null) => void,
   ) {
+    if (!supabase) {
+      throw new Error("Authentication isn't available in this deployment.");
+    }
+
     return supabase.auth.onAuthStateChange(callback);
   },
 };

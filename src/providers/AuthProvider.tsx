@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { supabase } from "../lib/supabase";
+import { hasSupabase, supabase } from "../lib/supabase";
 import { useAuthStore } from "../store/authStore";
 import { useModeStore } from "../store/modeStore";
 
@@ -12,10 +12,17 @@ export default function AuthProvider({
   const { setMode } = useModeStore();
 
   useEffect(() => {
+    if (!hasSupabase) {
+      clear();
+      setMode("demo");
+      setInitialized(true);
+      return;
+    }
+
     async function initialize() {
       const {
         data: { session },
-      } = await supabase.auth.getSession();
+      } = await supabase!.auth.getSession();
 
       if (session) {
         setUser(session.user);
@@ -33,11 +40,11 @@ export default function AuthProvider({
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase!.auth.onAuthStateChange((_event, session) => {
       if (session) {
         setUser(session.user);
         setSession(session);
-        setMode("admin"); // keep mode in sync even outside login()/logout()
+        setMode("admin");
       } else {
         clear();
         setMode("demo");
