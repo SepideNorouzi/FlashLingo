@@ -9,7 +9,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.auth import decode_token
 from app.db import SessionLocal
 from app.models import User
-from sqlalchemy import select
 
 bearer = HTTPBearer()
 
@@ -30,10 +29,10 @@ async def get_current_user(
     )
     try:
         user_id = decode_token(credentials.credentials)
-    except JWTError:
-        raise credentials_exception
+        user = await db.get(User, uuid.UUID(user_id))
+    except (JWTError, ValueError):
+        raise credentials_exception from None
 
-    user = await db.get(User, uuid.UUID(user_id))
     if user is None:
         raise credentials_exception
     return user
