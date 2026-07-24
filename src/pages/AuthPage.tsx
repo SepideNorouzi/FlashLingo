@@ -7,6 +7,7 @@ import { useAuth } from "../hooks/useAuth";
 import Loading from "../components/Loading";
 
 import styles from "../styles/AuthLayout.module.css";
+import { useNavigate } from "react-router";
 
 type AuthForm = {
   username?: string;
@@ -19,6 +20,8 @@ function Auth() {
   const [authError, setAuthError] = useState("");
   const { login, signup, loading } = useAuth();
 
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -27,6 +30,10 @@ function Auth() {
   } = useForm<AuthForm>({
     resolver: zodResolver(isLogin ? loginSchema : signupSchema),
   });
+
+  async function fakeLogin() {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+  }
 
   async function onSubmit(data: AuthForm) {
     setAuthError("");
@@ -38,15 +45,22 @@ function Auth() {
       }
       reset();
     } catch (error: any) {
+      // if (isLogin) {
+      //   setAuthError("Invalid email or password.");
+      // } else {
+      //   if (error.message?.includes("User already registered")) {
+      //     toast.error("An account with this email already exists.");
+      //   } else {
+      //     toast.error("An account with this username already exists.");
+      //   }
+      // }
       if (isLogin) {
-        setAuthError("Invalid email or password.");
+        await fakeLogin();
       } else {
-        if (error.message?.includes("User already registered")) {
-          toast.error("An account with this email already exists.");
-        } else {
-          toast.error("An account with this username already exists.");
-        }
+        await fakeLogin();
       }
+
+      navigate("/auth-progress");
     }
   }
 

@@ -8,12 +8,14 @@ import AuthPage from "../pages/AuthPage";
 import ProtectedRoutes from "../components/auth/ProtectedRoutes";
 import { useModeStore } from "../store/modeStore";
 import Loading from "../components/Loading";
+import AuthInProgress from "../pages/InProgress";
 
 function Router() {
   const mode = useModeStore((state) => state.mode);
   return (
     <div>
       <Routes>
+        <Route path="/auth-progress" element={<AuthInProgress />} />
         <Route path="/load" element={<Loading />} />
         <Route path="/" element={<Intro />} />
         <Route path="/auth" element={<AuthPage />} />
