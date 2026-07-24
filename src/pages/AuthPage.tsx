@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, signupSchema } from "../schemas/authSchema";
 import { useAuth } from "../hooks/useAuth";
