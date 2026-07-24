@@ -32,7 +32,7 @@ function Auth() {
   });
 
   async function fakeLogin() {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 
   async function onSubmit(data: AuthForm) {
@@ -62,6 +62,10 @@ function Auth() {
 
       navigate("/auth-progress");
     }
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (
@@ -275,7 +279,7 @@ focus:ring-2
               color: "white",
             }}
           >
-            {loading ? <Loading /> : isLogin ? "Sign In" : "Create Account"}
+            {isLogin ? "Sign In" : "Create Account"}
           </button>
         </form>
 
