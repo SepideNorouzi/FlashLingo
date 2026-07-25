@@ -49,13 +49,27 @@ function Sidebar({ onOpenModal }: SidebarProps) {
         <div className="mb-12">
           <div className="flex items-center gap-3">
             <div
-              className="rounded-2xl p-3"
-              style={{
-                background: "var(--secondary-light)",
-              }}
-            >
-              <BookOpen size={26} style={{ color: "var(--secondary)" }} />
-            </div>
+        className="
+          relative
+          rounded-2xl
+          p-3.5
+          transition-all
+          duration-300
+          group-hover:-translate-y-1
+          group-hover:rotate-[-4deg]
+        "
+        style={{
+          background: "var(--button-gradient)",
+          boxShadow:
+            "0 0 28px rgba(124,58,237,.28), 0 0 55px rgba(225,29,120,.18)",
+        }}
+      >
+        <BookOpen
+          size={26}
+          color="white"
+          strokeWidth={2.3}
+        />
+      </div>
 
             <div>
               <h1
