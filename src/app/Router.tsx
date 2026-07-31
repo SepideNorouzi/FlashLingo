@@ -9,6 +9,7 @@ import ProtectedRoutes from "../components/auth/ProtectedRoutes";
 import { useModeStore } from "../store/modeStore";
 import Loading from "../components/Loading";
 import AuthInProgress from "../pages/InProgress";
+import RedirectIfAuthenticated from "../components/auth/RedirectAuth";
 
 function Router() {
   const mode = useModeStore((state) => state.mode);
@@ -17,8 +18,22 @@ function Router() {
       <Routes>
         <Route path="/auth-progress" element={<AuthInProgress />} />
         <Route path="/load" element={<Loading />} />
-        <Route path="/" element={<Intro />} />
-        <Route path="/auth" element={<AuthPage />} />
+        <Route
+          path="/"
+          element={
+            <RedirectIfAuthenticated>
+              <Intro />
+            </RedirectIfAuthenticated>
+          }
+        />
+        <Route
+          path="/auth"
+          element={
+            <RedirectIfAuthenticated>
+              <AuthPage />
+            </RedirectIfAuthenticated>
+          }
+        />
         {mode == "admin" ? (
           <Route element={<ProtectedRoutes />}>
             <Route element={<MainLayout />}>

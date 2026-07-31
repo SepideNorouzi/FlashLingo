@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
+  AnimatePresence,
   motion,
-  useAnimation,
+  animate,
   useMotionValue,
   useTransform,
 } from "framer-motion";
@@ -22,198 +23,149 @@ interface CardViewerProps {
 
 const SWIPE_THRESHOLD = 140;
 
+/**
+ * Outer shell: owns nothing but the AnimatePresence boundary.
+ * Every time `card.id` changes, the old SwipeCard unmounts (playing its
+ * exit animation) and a brand new SwipeCard mounts (fresh state: not
+ * flipped, x = 0, no drag history). This is what guarantees every card
+ * starts clean — no manual "reset" useEffect needed anymore.
+ */
 function CardViewer({
   card,
   projectName,
   onCorrect,
   onWrong,
 }: CardViewerProps) {
-  /**
-   * Keeps track of whether the card has been flipped.
-   */
+  // Tells the exiting card which direction to fly off in.
+  const [exitDirection, setExitDirection] = useState<"left" | "right" | null>(
+    null,
+  );
+
+  return (
+    <div className="relative mx-auto w-full max-w-[420px] md:max-w-[560px] h-[350px] md:h-[420px]">
+      <AnimatePresence initial={false} custom={exitDirection} mode="popLayout">
+        <SwipeCard
+          key={card.id}
+          card={card}
+          projectName={projectName}
+          onSwipeRight={() => {
+            // 1. Lock in the exit direction for the animation.
+            setExitDirection("right");
+            // 2. Advance the SESSION immediately — do not wait on
+            //    any animation.data state and
+            //    visual state are now fully independent.
+            onCorrect();
+          }}
+          onSwipeLeft={() => {
+            setExitDirection("left");
+            onWrong();
+          }}
+        />
+      </AnimatePresence>
+    </div>
+  );
+}
+
+interface SwipeCardProps {
+  card: FlashCard;
+  projectName: string;
+  onSwipeRight: () => void;
+  onSwipeLeft: () => void;
+}
+
+
+function SwipeCard({
+  card,
+  projectName,
+  onSwipeRight,
+  onSwipeLeft,
+}: SwipeCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  /**
-   * Prevents multiple swipes while the exit animation is playing.
-   */
-  const [isAnimating, setIsAnimating] = useState(false);
-
   const x = useMotionValue(0);
-
   const rotate = useTransform(x, [-250, 0, 250], [-14, 0, 14]);
-
-  /**
-   * Controls the fly-away animation.
-   */
-  const controls = useAnimation();
-
-  /**
-   * Drag right => green check fades in.
-   * Drag left => red cross fades in.
-   */
   const rightOpacity = useTransform(x, [0, 150], [0, 1]);
-
   const leftOpacity = useTransform(x, [-150, 0], [1, 0]);
 
-  /**
-   * Used to ignore clicks after dragging.
-   */
   const hasDragged = useRef(false);
+  // Guards against double-firing onSwipeRight/Left if dragEnd somehow
+  // fires more than once before the component unmounts.
+  const resolved = useRef(false);
 
-  /**
-   * Every time a new flashcard arrives,
-   * reset everything.
-   */
-  useEffect(() => {
-    setIsFlipped(false);
-    setIsAnimating(false);
-
-    x.set(0);
-
-    controls.set({
-      x: 0,
-      rotate: 0,
-      opacity: 1,
-    });
-  }, [card.id]);
-
-  /**
-   * Flip card.
-   *
-   * If the user was dragging,
-   * don't treat it as a tap.
-   */
   function handleFlip() {
     if (hasDragged.current) {
       hasDragged.current = false;
       return;
     }
-
     setIsFlipped((prev) => !prev);
   }
 
-  /**
-   * Runs after the user releases the drag.
-   */
-  async function handleDragEnd(
+  function handleDragEnd(
     _: MouseEvent | TouchEvent | PointerEvent,
-    info: {
-      offset: {
-        x: number;
-      };
-    },
+    info: { offset: { x: number } },
   ) {
-    if (!isFlipped || isAnimating) return;
+    if (!isFlipped || resolved.current) return;
 
     const offset = info.offset.x;
 
-    /**
-     * RIGHT
-     */
     if (offset > SWIPE_THRESHOLD) {
-      setIsAnimating(true);
-
-      await controls.start({
-        x: 600,
-        rotate: 25,
-        opacity: 0,
-        transition: {
-          duration: 0.28,
-        },
-      });
-
-      onCorrect();
-
+      resolved.current = true;
+      onSwipeRight();
       return;
     }
 
-    /**
-     * LEFT
-     */
     if (offset < -SWIPE_THRESHOLD) {
-      setIsAnimating(true);
-
-      await controls.start({
-        x: -600,
-        rotate: -25,
-        opacity: 0,
-        transition: {
-          duration: 0.28,
-        },
-      });
-
-      onWrong();
-
+      resolved.current = true;
+      onSwipeLeft();
       return;
     }
 
-    /**
-     * Not enough distance.
-     *
-     * Snap back.
-     */
-    controls.start({
-      x: 0,
-      rotate: 0,
-      transition: {
-        type: "spring",
-        stiffness: 350,
-        damping: 28,
-      },
-    });
+    animate(x, 0, { type: "spring", stiffness: 350, damping: 28 });
   }
 
   return (
-    <div className="flex w-full max-w-[560px] flex-col items-center gap-8 mx-auto">
+    <motion.div
+      className={`${styles.scene} absolute inset-0`}
+      style={{ x, rotate }}
+      drag={isFlipped ? "x" : false}
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.2}
+      onDragStart={() => {
+        hasDragged.current = true;
+      }}
+      onDragEnd={handleDragEnd}
+      onClick={handleFlip}
+      initial={{ opacity: 0, scale: 0.94 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{
+        x: exitVariants.x,
+        rotate: exitVariants.rotate,
+        opacity: 0,
+        transition: { duration: 0.28 },
+      }}
+      transition={{ type: "spring", stiffness: 300, damping: 26 }}
+    >
       <motion.div
-        className={styles.scene}
-        animate={controls}
-        style={{
-          x,
-          rotate,
-        }}
-        drag={isFlipped ? "x" : false}
-        dragConstraints={{
-          left: 0,
-          right: 0,
-        }}
-        dragElastic={0.2}
-        onDragStart={() => {
-          hasDragged.current = true;
-        }}
-        onDragEnd={handleDragEnd}
-        onClick={handleFlip}
-      >
-        <motion.div
-          className={styles.correctOverlay}
-          style={{
-            opacity: rightOpacity,
-          }}
-        >
-          
-        </motion.div>
+        className={styles.correctOverlay}
+        style={{ opacity: rightOpacity }}
+      />
+      <motion.div
+        className={styles.wrongOverlay}
+        style={{ opacity: leftOpacity }}
+      />
 
-        <motion.div
-          className={styles.wrongOverlay}
-          style={{
-            opacity: leftOpacity,
-          }}
-        >
-          
-        </motion.div>
-
-        <div className={`${styles.card} ${isFlipped ? styles.flipped : ""}`}>
-          <div className={styles.face}>
-            <CardFront card={card} projectName={projectName} />
-          </div>
-
-          <div className={`${styles.face} ${styles.back}`}>
-            <CardBack card={card} />
-          </div>
+      <div className={`${styles.card} ${isFlipped ? styles.flipped : ""}`}>
+        <div className={styles.face}>
+          <CardFront card={card} projectName={projectName} />
         </div>
-      </motion.div>
-    </div>
+        <div className={`${styles.face} ${styles.back}`}>
+          <CardBack card={card} />
+        </div>
+      </div>
+    </motion.div>
   );
 }
+
+const exitVariants = { x: 0, rotate: 0 };
 
 export default CardViewer;
