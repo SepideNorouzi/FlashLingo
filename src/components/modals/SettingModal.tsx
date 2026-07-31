@@ -17,12 +17,6 @@ function SettingModal(props: ModalProps) {
   return (
     <BaseModal {...props} title="Settings">
       <div className="space-y-6">
-        <p>
-          Settings has no functionality yet. If you're looking for dark mode...
-          you are in the wrong place. This app believes in sunlight and eye
-          strain apparently.
-        </p>
-
         {isAuthenticated ? (
           <button
             onClick={handleLogout}
