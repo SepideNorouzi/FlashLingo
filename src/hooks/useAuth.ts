@@ -19,6 +19,13 @@ export function useAuth() {
     setLoading(true);
     try {
       const { session, user } = await authService.signIn(email, password);
+
+      if (!session || !user) {
+        throw new Error(
+          "Sign in failed. Confirm your email in Supabase Auth, or disable email confirmation for local testing.",
+        );
+      }
+
       setUser(user);
       setSession(session);
       setMode("admin");
@@ -39,6 +46,14 @@ export function useAuth() {
         email,
         password,
       );
+
+      // Email confirmation enabled → no session yet
+      if (!session || !user) {
+        throw new Error(
+          "Account created. Check your email to confirm, then sign in. Or disable Confirm email in Supabase Auth settings for local testing.",
+        );
+      }
+
       setUser(user);
       setSession(session);
       setMode("admin");

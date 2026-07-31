@@ -1,13 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-// import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, signupSchema } from "../schemas/authSchema";
 import { useAuth } from "../hooks/useAuth";
 import Loading from "../components/Loading";
 
 import styles from "../styles/AuthLayout.module.css";
-import { useNavigate } from "react-router";
 
 type AuthForm = {
   username?: string;
@@ -18,9 +16,8 @@ type AuthForm = {
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
   const [authError, setAuthError] = useState("");
+  const [authInfo, setAuthInfo] = useState("");
   const { login, signup, loading } = useAuth();
-
-  const navigate = useNavigate();
 
   const {
     register,
@@ -31,12 +28,9 @@ function Auth() {
     resolver: zodResolver(isLogin ? loginSchema : signupSchema),
   });
 
-  async function fakeLogin() {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  }
-
   async function onSubmit(data: AuthForm) {
     setAuthError("");
+    setAuthInfo("");
     try {
       if (isLogin) {
         await login(data.email, data.password);
@@ -44,23 +38,12 @@ function Auth() {
         await signup(data.username!, data.email, data.password);
       }
       reset();
-    } catch (error: any) {
-      // if (isLogin) {
-      //   setAuthError("Invalid email or password.");
-      // } else {
-      //   if (error.message?.includes("User already registered")) {
-      //     toast.error("An account with this email already exists.");
-      //   } else {
-      //     toast.error("An account with this username already exists.");
-      //   }
-      // }
-      if (isLogin) {
-        await fakeLogin();
-      } else {
-        await fakeLogin();
-      }
-
-      navigate("/auth-progress");
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.";
+      setAuthError(message);
     }
   }
 
@@ -258,6 +241,9 @@ focus:ring-2
             {authError && (
               <p className="mt-2 text-sm text-red-500">{authError}</p>
             )}
+            {authInfo && (
+              <p className="mt-2 text-sm text-emerald-600">{authInfo}</p>
+            )}
           </div>
 
           <button
@@ -299,6 +285,7 @@ focus:ring-2
               setIsLogin((prev) => !prev);
               reset();
               setAuthError("");
+              setAuthInfo("");
             }}
             className="ml-2 font-semibold transition"
             style={{
