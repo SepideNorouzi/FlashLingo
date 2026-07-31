@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, signupSchema } from "../schemas/authSchema";
 import { useAuth } from "../hooks/useAuth";
@@ -17,6 +16,7 @@ type AuthForm = {
 function Auth() {
   const [isLogin, setIsLogin] = useState(true);
   const [authError, setAuthError] = useState("");
+  const [authInfo, setAuthInfo] = useState("");
   const { login, signup, loading } = useAuth();
 
   const {
@@ -30,6 +30,7 @@ function Auth() {
 
   async function onSubmit(data: AuthForm) {
     setAuthError("");
+    setAuthInfo("");
     try {
       if (isLogin) {
         await login(data.email, data.password);
@@ -37,17 +38,17 @@ function Auth() {
         await signup(data.username!, data.email, data.password);
       }
       reset();
-    } catch (error: any) {
-      if (isLogin) {
-        setAuthError("Invalid email or password.");
-      } else {
-        if (error.message?.includes("User already registered")) {
-          toast.error("An account with this email already exists.");
-        } else {
-          toast.error("An account with this username already exists.");
-        }
-      }
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.";
+      setAuthError(message);
     }
+  }
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (
@@ -240,6 +241,9 @@ focus:ring-2
             {authError && (
               <p className="mt-2 text-sm text-red-500">{authError}</p>
             )}
+            {authInfo && (
+              <p className="mt-2 text-sm text-emerald-600">{authInfo}</p>
+            )}
           </div>
 
           <button
@@ -261,7 +265,7 @@ focus:ring-2
               color: "white",
             }}
           >
-            {loading ? <Loading /> : isLogin ? "Sign In" : "Create Account"}
+            {isLogin ? "Sign In" : "Create Account"}
           </button>
         </form>
 
@@ -281,6 +285,7 @@ focus:ring-2
               setIsLogin((prev) => !prev);
               reset();
               setAuthError("");
+              setAuthInfo("");
             }}
             className="ml-2 font-semibold transition"
             style={{
