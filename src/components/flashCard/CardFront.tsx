@@ -54,7 +54,7 @@ function CardFront({ card, projectName }: CardFrontProps) {
           }}
         >
           <p className="text-sm" style={{ color: "var(--text-light)" }}>
-            Tap anywhere to reveal the answer
+            Tap to reveal
           </p>
         </div>
         <div

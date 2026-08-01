@@ -57,13 +57,13 @@ function CardBack({ card }: CardBackProps) {
           </h2>
         </div>
         <div
-          className="mt-8 text-center text-sm font-medium"
+          className="mt-6 text-center text-sm font-medium"
           style={{
             color: "var(--text-light)",
             opacity: 0.75,
           }}
         >
-          ❌ Wrong &nbsp;&nbsp;•&nbsp;&nbsp; ✅ Right
+          ❌ Wrong &nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✅ Right
         </div>
       </div>
     </CardShell>
