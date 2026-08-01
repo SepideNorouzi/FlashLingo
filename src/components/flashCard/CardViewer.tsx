@@ -73,7 +73,6 @@ interface SwipeCardProps {
   onSwipeLeft: () => void;
 }
 
-
 function SwipeCard({
   card,
   projectName,
@@ -148,11 +147,15 @@ function SwipeCard({
       <motion.div
         className={styles.correctOverlay}
         style={{ opacity: rightOpacity }}
-      />
+      >
+        ✅
+      </motion.div>
       <motion.div
         className={styles.wrongOverlay}
         style={{ opacity: leftOpacity }}
-      />
+      >
+        ❌
+      </motion.div>
 
       <div className={`${styles.card} ${isFlipped ? styles.flipped : ""}`}>
         <div className={styles.face}>

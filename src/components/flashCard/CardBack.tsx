@@ -63,8 +63,7 @@ function CardBack({ card }: CardBackProps) {
             opacity: 0.75,
           }}
         >
-          ← Swipe left if you were wrong &nbsp;&nbsp;•&nbsp;&nbsp; Swipe right
-          if you were right →
+          ❌ Wrong &nbsp;&nbsp;•&nbsp;&nbsp; ✅ Right
         </div>
       </div>
     </CardShell>
